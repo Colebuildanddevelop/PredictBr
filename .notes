@@ -1,0 +1,65 @@
+// trader tournaments
+
+- todo 
+
+  - what do we need
+
+    - metamask login detection state
+    - react router
+    - 
+    - web3 
+    - material ui
+    - redux state tree
+      - current product 
+        - graph 
+        - tournaments
+
+FILE STRUCTURE 
+
+src
+
+  components
+    App
+    Navigation
+    ProductSelection
+    Graph
+    Game
+    GameList
+     
+
+  views
+    ProductSelection
+      - ProductSelection
+    ProductSelected
+      - Graph
+      - GameSelection / GameSelected
+      
+    GameSelection 
+      - list of games
+      - create games that add to list of games
+    
+    GameSelected
+      - Game
+
+
+PLANNING
+
+  GameList
+    - theres is static data
+      - duration
+      - prediction period 
+      - resolution period 
+      - cost to predict
+      - name
+      - asset
+    - there is data that needs to be subscribed to
+      - fee_collected x 
+      - price_has_settled (dont need if we listen for price to finalize )
+      - balance 
+      - players total stake (contract doesnt support directly, but total player predictions x cost to predict ===)
+      - positions ()
+      - all predicted prices
+      - prediction_number (useless)
+      - winning_prediction x
+      - ETHUSD x & t
+      
