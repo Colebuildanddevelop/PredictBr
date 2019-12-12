@@ -55,11 +55,18 @@ PLANNING
     - there is data that needs to be subscribed to
       - fee_collected x 
       - price_has_settled (dont need if we listen for price to finalize )
-      - balance 
+      - balance (is used for tournament creator and )
+      - total predicted x
       - players total stake (contract doesnt support directly, but total player predictions x cost to predict ===)
-      - positions ()
-      - all predicted prices
+      - positions () x 
+      - all predicted prices x 
       - prediction_number (useless)
       - winning_prediction x
       - ETHUSD x & t
+      - #winners 
+    - there is data that determines state
       
+
+    
+  contract changes
+    factory shouldnt have name option (just restrict creators)
