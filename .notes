@@ -27,14 +27,14 @@ src
     GameList
      
 
-  views
+  views / HOC injects logic into view component
     ProductSelection
       - ProductSelection
     ProductSelected
       - Graph
       - GameSelection / GameSelected
       
-    GameSelection 
+    GameList 
       - list of games
       - create games that add to list of games
     

@@ -8,12 +8,9 @@ const App = () => {
 
   return (
     <div>
-    
-        <Router>
-          <Navigation />
-        </Router>
-
-
+      <Router>
+        <Navigation />
+      </Router>
     </div>
 
 
