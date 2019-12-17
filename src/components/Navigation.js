@@ -10,11 +10,9 @@ import Graph from './Graph';
 
 const Navigation = (props) => {
   const { web3 } = props;  
-
   const [state, setState] = useState({
     isLoading: true,
   })  
-
   const factoryAbi = [
     {
       "constant": false,
@@ -602,7 +600,7 @@ const Navigation = (props) => {
 
   useEffect(() => {
     const getAddress = async() => {
-      const address = await web3.eth.getAccounts()
+      const address = await web3.eth.getAccounts();
       setState(state => ({
         ...state,
         numOfGames: 0,
@@ -634,11 +632,13 @@ const Navigation = (props) => {
         games: {
           ...state.games,
           [contractAddress]: {
+            gameContract: gameContract,
             predictionCost: predictionCost,
             assetName: assetName,
             resolutionPeriod: resolutionPeriod,
             competitionPeriod: competitionPeriod,
             pricePredictionPeriod: pricePredictionPeriod,
+            positions: [],
           }
         }
       }))
@@ -646,7 +646,6 @@ const Navigation = (props) => {
 
     const subscribeToGame = async (gameContract, gameAddress) => {
       // subscribe turn into hooks? 
-
       await gameContract.events.assetPriceSet({
         fromBlock: 0,
         toBlock: 'latest',
@@ -732,7 +731,6 @@ const Navigation = (props) => {
           }))                        
         }  
       })
-      
       await gameContract.events.positionAdded({
         fromBlock: 0,
         toBlock: 'latest',
@@ -742,18 +740,23 @@ const Navigation = (props) => {
           let predictionPrice = event.returnValues.predictionPrice
           setState(state => ({
             ...state,
-            [gameAddress]: {
-              ...state[gameAddress],
-              positions: [
-                ...state[gameAddress].positions,  
-                {[player]: predictionPrice}
-              ]                 
+            games: {
+              ...state.games,
+              [gameAddress]: {
+                ...state.games[gameAddress],
+                positions: [
+                  ...state.games[gameAddress].positions,
+                  {
+                    player: player, 
+                    predictionPrice: predictionPrice
+                  }
+                ]
+              }
             }
-          }))                                                               
+          }))                                                          
         }  
       }) 
     }
-
     // for each contract get gameData
     factoryContract.events.contractCreated({
       fromBlock: 0,
@@ -765,17 +768,19 @@ const Navigation = (props) => {
         let gameContract = new web3.eth.Contract(gameAbi, gameAddress)
         setState(state => ({
           ...state,
-          isLoading: false,
           numOfGames: state.numOfGames + 1
         }))   
-        // Get constant data
+        // Get constant data then subscribe to events
         getGameData(gameContract, gameAddress)
           .then(() => {
             subscribeToGame(gameContract, gameAddress);
           })  
       }
-    })    
-      
+    })
+    setState(state => ({
+      ...state,
+      isLoading: false,
+    }));
   }, [])
 
   const handleCountdown = (address, countdown, duration, countdownName, isOverMessage) => {
@@ -818,35 +823,21 @@ const Navigation = (props) => {
     }, 1000);      
   }
 
-  // create game functionality 
-  // handle click for creating a Game
-  const handleCreateGame = (playerAddress, gameName, assetName, predictionCost, timeToStart, durationMinutes) => {
-    factoryContract.methods.createGame(
-      gameName, 
-      assetName, 
-      predictionCost, 
-      timeToStart, 
-      durationMinutes
-    ).send({
-      from: playerAddress
-    })
-    .then((error, result) => {
-      if (!error) {
-        console.log(result)
-      } else {
-        console.log(error)
-      }
-    })
-  }
-
   if (state.isLoading !== true) {
     return (
       <React.Fragment>
   
-        <Switch>    
+        <Switch>  
           <Route 
             exact path="/"
-            render={() => <Gamelist handleCreateGame={handleCreateGame} state={state}  />}
+            render={() => <Gamelist factoryContract={factoryContract} state={state} />}
+          />
+          <Route 
+            path="/game_:id"
+            render={({match}) => <Game
+              gameState={state.games[match.params.id]} 
+              myAddress={state.myAddress} 
+            />}
           />
         </Switch>
   
@@ -856,7 +847,6 @@ const Navigation = (props) => {
   } else {
     return <p>loading</p>
   }
-
 };
 
 export default withWeb3(Navigation);

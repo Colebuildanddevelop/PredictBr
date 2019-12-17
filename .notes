@@ -28,8 +28,10 @@ src
      
 
   views / HOC injects logic into view component
+
     ProductSelection
       - ProductSelection
+
     ProductSelected
       - Graph
       - GameSelection / GameSelected
@@ -65,8 +67,19 @@ PLANNING
       - ETHUSD x & t
       - #winners 
     - there is data that determines state
+      - before start
+      - game start
+      - game ended / resolution
+      - resolution over
+      - 
+    - functionality to create a new game
+    - 
       
 
     
   contract changes
     factory shouldnt have name option (just restrict creators)
+
+
+  ONGOING todo
+  - isLoading loads on first game instead of waiting
