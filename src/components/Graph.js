@@ -9,26 +9,28 @@ const Graph = (props) => {
     productData: null  
   })  
 
-  useEffect(async () => {
-    
-    const response = await fetch(props.product);
-    const myJson = await response.json();
-    let updatedArr = [] 
-    Object.entries(myJson['Time Series (Daily)']).forEach((entry) => {
-      updatedArr.push({
-        x: new Date(entry[0]),  
-        open: entry[1]['1. open'], 
-        high: entry[1]['2. high'],
-        low: entry[1]['3. low'],
-        close: entry[1]['4. close'],  
-      });
-    })
-
-    setState({
-      isLoading: false,
-      productData: updatedArr,
-    })
-    console.log(updatedArr)
+  useEffect(() => {
+    const getData = async() => {
+      const response = await fetch(props.product);
+      const myJson = await response.json();
+      let updatedArr = [] 
+      Object.entries(myJson[props.timeSeriesKey]).forEach((entry) => {
+        updatedArr.push({
+          x: new Date(entry[0]),  
+          open: entry[1][props.OHLCKeys.open], 
+          high: entry[1][props.OHLCKeys.high],
+          low: entry[1][props.OHLCKeys.low],
+          close: entry[1][props.OHLCKeys.close],  
+        });
+      })
+  
+      setState({
+        isLoading: false,
+        productData: updatedArr,
+      })
+      console.log(updatedArr)
+    }
+    getData();
   }, [])
 
   if (state.isLoading !== true) { 

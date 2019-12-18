@@ -1,25 +1,25 @@
 import React from 'react';
 import Graph from './Graph';
 import SampleGraph from './SampleGraph'
+import { Link } from 'react-router-dom';
 
 const ProductSelection = () => {
   return (
     <div>
       <ul>
-        <li>
+        <Link to='/SPY'>
           <p>sp 500</p>  
-        </li>
-        <li>
+        </Link>
+        <Link to='/GLD'>
           <p>gold</p>  
-        </li>
-        <li>
-          <p>oil</p>  
-        </li>
-        <li>
+        </Link>
+        <Link to='/USO'>
+          <p>USO</p>  
+        </Link>
+        <Link to='/ETH'>
           <p>ethereum</p>  
-        </li>                  
+        </Link>                  
       </ul>
-      <Graph product='https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=SPY&apikey=MFZK4WADD8FSBHVF'/>
     </div>  
   )
 }

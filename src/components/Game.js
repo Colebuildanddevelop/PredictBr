@@ -3,10 +3,103 @@ import React, { useState, useEffect } from 'react';
  *  allows user to interact with the game contract
  */
 const Game = (props) => {
+  const [state, setState] = useState({
+    assetPrice: null, 
+    winningPrediction: null,
+    numOfWinners: null, 
+    feeCollected: null, 
+    totalPredictionPool: null,
+    positions: [],
+  })
   const [predictionVal, setPredictionVal] = useState(0);
 
   useEffect(() => {    
     console.log(props)
+    console.log(state)
+    let isSubscribed = true;
+    const subscribeToGame = (gameContract) => {
+      // subscribe turn into hooks? 
+      gameContract.events.assetPriceSet({
+        fromBlock: 0,
+        toBlock: 'latest',
+      }, (error, event) => {
+        if (!error) {
+          setState(state => ({
+            ...state,
+            assetPrice: event.returnValues.price
+          }))
+        }  
+      })
+      gameContract.events.winningPredictionSet({
+        fromBlock: 0,
+        toBlock: 'latest',
+      }, (error, event) => {
+        if (!error) {
+          setState(state => ({
+            ...state,
+            winningPrediction: event.returnValues.prediction
+          }))                                         
+        }  
+      })
+      gameContract.events.numberOfWinners({
+        fromBlock: 0,
+        toBlock: 'latest',
+      }, (error, event) => {
+        if (!error) {
+          setState(state => ({
+            ...state,
+            numOfWinners: event.returnValues.winners                          
+          }))              
+        }  
+      })
+      gameContract.events.feeCollected({
+        fromBlock: 0,
+        toBlock: 'latest',
+      }, (error, event) => {
+        if (!error) {
+          setState(state => ({
+            ...state,       
+            feeCollected: event.returnValues.collected                          
+          }))                    
+        }  
+      })
+      gameContract.events.totalPredictionPool({
+        fromBlock: 0,
+        toBlock: 'latest',
+      }, (error, event) => {
+        if (!error) {
+          setState(state => ({
+            ...state,  
+            totalPredictionPool: event.returnValues.total                          
+          }))                        
+        }  
+      })
+      gameContract.events.positionAdded({
+        fromBlock: 0,
+        toBlock: 'latest',
+      }, (error, event) => {
+        if (!error) {
+          let player = event.returnValues.player
+          let predictionPrice = event.returnValues.predictionPrice
+          setState(state => ({
+            ...state,  
+            positions: [
+              ...state.positions,
+              {
+                player: player, 
+                predictionPrice: predictionPrice
+              }
+            ]                          
+          }))                                                          
+        }  
+      }) 
+    }    
+    if (isSubscribed === true) {
+      subscribeToGame(props.gameState.gameContract)
+    }
+    console.log(props)
+    console.log(state)
+    return () => isSubscribed = false;
   }, [])
 
   // send user prediction and staked eth
@@ -54,8 +147,13 @@ const Game = (props) => {
   }
 
   // collect winnings 
-
-  // 
+  const collectWinnings = () => {
+    props.gameState.gameContract.methods.collect_my_winnings()
+      .send({
+        from: props.myAddress[0]
+      })
+  }
+  
 
 
   return (
@@ -63,7 +161,7 @@ const Game = (props) => {
       <p>game</p>
       <input type='number' min={1} value={predictionVal} onChange={(e) => setPredictionVal(e.target.value)} />
       <button onClick={() => handlePredict()}>predict</button>
-      <button onClick={handleClaimWinningPrediction}>log prediction valu</button>
+      <button onClick={() => console.log(state)}>log prediction valu</button>
     </div>
 
   )

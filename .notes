@@ -17,7 +17,6 @@
 FILE STRUCTURE 
 
 src
-
   components
     App
     Navigation
@@ -25,14 +24,13 @@ src
     Graph
     Game
     GameList
-     
-
+    
   views / HOC injects logic into view component
 
-    ProductSelection
+    ProductSelection 
       - ProductSelection
 
-    ProductSelected
+    ProductSelected (get the state of the sleected asset factory, and games)
       - Graph
       - GameSelection / GameSelected
       
@@ -82,4 +80,13 @@ PLANNING
 
 
   ONGOING todo
-  - isLoading loads on first game instead of waiting
+  - isLoading loads on first game instead of waiting\
+  - change subscribing to game state to only subscribe when a game is selected
+  - styling 
+    - need more intricate plans for styling 
+    - Game 
+      - predict 
+      - claim winning prediction
+      - collect winnings
+
+  State Tree    
