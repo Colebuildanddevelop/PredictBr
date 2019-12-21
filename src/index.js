@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 
-
-
 import Web3 from 'web3';
 import Web3Provider from 'react-web3-provider';
 

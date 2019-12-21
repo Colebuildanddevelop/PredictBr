@@ -1,10 +1,31 @@
-import React from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink, useRouteMatch } from 'react-router-dom';
+// MATERIAL UI
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
+
+const useStyles = makeStyles(theme => ({
+  gameCardContainer: {
+    margin: 'auto',
+    maxWidth: '100%',
+    minWidth: '100%'
+  },
+  gameCard: {
+    height: 100,
+    display: 'block'
+  }
+}));
 
 
 // gets a list of all availible and expired games
 const Gamelist = (props) => {
+  const classes = useStyles();
   let { url } = useRouteMatch();
+
+   
   // create game functionality 
   // handle click for creating a Game
   const handleCreateGame = (
@@ -36,19 +57,60 @@ const Gamelist = (props) => {
   if (props.state.games !== undefined || null) {
     return (
       <div>
-        <h1>loaded</h1>
-        <button onClick={() => handleCreateGame(props.state.myAddress[0], "spy", 1000000000, 5, 1)}>create game</button>
-        <button onClick={() => {console.log(props)}}>click</button>
-        <ul>
+        <Button variant='contained' onClick={() => handleCreateGame(props.state.myAddress[0], "spy", 1000000000, 5, 1)}>create game</Button>
+        <Button variant='contained' onClick={() => {console.log(props)}}>click</Button>
+        <Grid container direction='column' style={{marginTop: 20}}>
           {Object.keys(props.state.games).map((game, key) => (
-            
-            <Link to={`${url}/game_${game}`}>
-              <li key={key}>
-                {game}
-              </li>
-            </Link>            
+            <Grid item className={classes.gameCardContainer}>
+              <NavLink style={{ textDecoration: 'none', color: 'unset' }} color="inherit" to={`${url}/game_${game}`}>                
+                <Card className={classes.gameCard}>
+                  <Grid item container>
+                    <Grid item container xs={4}>
+                      <Grid item  xs={12}>
+                        <Typography align='left'>
+                          state
+                        </Typography>
+                      </Grid> 
+                      <Grid item xs={12}>
+                        
+                          {props.state.games[game].predictionPeriodCountdown.durationDated !== null &&
+                            <Typography align='left'>
+                              start: {props.state.games[game].predictionPeriodCountdown.durationDated.getDay()} / {props.state.games[game].predictionPeriodCountdown.durationDated.getDay()}
+                            </Typography>                              
+                          }
+                          
+                        
+                      </Grid> 
+                      <Grid item xs={12}>
+                        <Typography align='left'>
+                          end:
+                        </Typography>
+                      </Grid>                       
+
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Typography align='center' variant='h5'>
+                        name
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4} >
+                      <Grid item xs={12}>
+                        <Typography align='right'>
+                          right
+                        </Typography>
+                      </Grid> 
+                      <Grid item xs={12}>
+                        <Typography align='right'>
+                          right
+                        </Typography>
+                      </Grid>  
+                    </Grid>                                        
+                  </Grid>                              
+                </Card>
+              </NavLink>    
+            </Grid>
           ))}   
-        </ul>
+        </Grid>
      
       </div>  
     )

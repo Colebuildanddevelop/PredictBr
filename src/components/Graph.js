@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { VictoryCandlestick, VictoryChart, VictoryAxis, VictoryTheme, VictoryTooltip } from 'victory';
+import { VictoryCandlestick, VictoryZoomContainer, VictoryChart, VictoryAxis, VictoryTheme, VictoryTooltip, createContainer, VictoryCursorContainer } from 'victory';
 
 
 const Graph = (props) => {
+  const CustomContainer = createContainer('voronoi', 'cursor')
 
   const [state, setState] = useState({
     isLoading: true,
@@ -14,16 +15,19 @@ const Graph = (props) => {
       const response = await fetch(props.product);
       const myJson = await response.json();
       let updatedArr = [] 
+      let maxTenDays = 0;
       Object.entries(myJson[props.timeSeriesKey]).forEach((entry) => {
-        updatedArr.push({
-          x: new Date(entry[0]),  
-          open: entry[1][props.OHLCKeys.open], 
-          high: entry[1][props.OHLCKeys.high],
-          low: entry[1][props.OHLCKeys.low],
-          close: entry[1][props.OHLCKeys.close],  
-        });
+        if (maxTenDays <= 10) {
+          updatedArr.push({
+            x: new Date(entry[0]),  
+            open: entry[1][props.OHLCKeys.open], 
+            high: entry[1][props.OHLCKeys.high],
+            low: entry[1][props.OHLCKeys.low],
+            close: entry[1][props.OHLCKeys.close],  
+          });
+          maxTenDays += 1;
+        }
       })
-  
       setState({
         isLoading: false,
         productData: updatedArr,
@@ -35,28 +39,25 @@ const Graph = (props) => {
 
   if (state.isLoading !== true) { 
     return (
-      <div style={{padding: 50}}>
+      <div style={{padding: 0}}>
 
         <VictoryChart
+          containerComponent={
+            <VictoryCursorContainer
+              cursorLabel={({ datum }) => `${datum.x.getMonth()}/${datum.x.getDay()}, ${Math.round(datum.y, 2)}`}
+            />
+          }
           theme={VictoryTheme.material}
-          domainPadding={{ x: 25 }}
+          domainPadding={{ x: 0 }}
           scale={{ x: "time" }}
         >
-          <VictoryAxis tickCount={12} style={{tickLabels: {fontSize: 6, padding: 5}}} tickFormat={(t) => `${t.getMonth()}/${t.getDate()}`}/>
-          <VictoryAxis dependentAxis tickCount={20} style={{tickLabels: {fontSize: 5, padding: 5}}}/>  
+          <VictoryAxis tickCount={2} style={{tickLabels: {fontSize: 20, padding: 0}}} tickFormat={(t) => `${t.getMonth()}/${t.getDate()}`}/>
+          <VictoryAxis dependentAxis tickCount={5} style={{tickLabels: {fontSize: 20, padding: 0}}}/>  
           <VictoryCandlestick
             candleColors={{ positive: "#5f5c5b", negative: "#c43a31" }}
             data={state.productData}        
             style={{labels: {fontSize: 5}}}
-            labels={({ datum }) => {
-              return (                                
-                `${datum.x.getMonth()}/${datum.x.getDate()}
-                open: ${datum.open}
-                high: ${datum.high}
-                low: ${datum.low} 
-                close: ${datum.close}`                
-              )
-            }}          
+      
             labelComponent={
               <VictoryTooltip
                 flyoutWidth={60}
@@ -64,17 +65,7 @@ const Graph = (props) => {
                 pointerWidth={5}                
               />
             }
-            events={[{
-              target: "data",
-              eventHandlers: {
-                onMouseOver: () => ({
-                  target: "labels", mutation: () => ({ active: true })
-                }),
-                onMouseOut: () => ({
-                  target: "labels", mutation: () => ({ active: false })
-                })
-              }
-            }]}
+  
           />        
         </VictoryChart>
       </div>  

@@ -4,6 +4,8 @@ import { withWeb3 } from 'react-web3-provider';
 import Gamelist from '../Gamelist';
 import Game from '../Game';
 import Graph from '../Graph';
+// MATERIAL UI 
+
 
 const SelectedProduct = (props) => {
   // REACT ROUTER
@@ -13,7 +15,6 @@ const SelectedProduct = (props) => {
   const [state, setState] = useState({
     isLoading: true,
   })
-
   const factoryContract = new web3.eth.Contract(props.factoryAbi, props.factoryAddress);  
 
   useEffect(() => {
@@ -34,7 +35,6 @@ const SelectedProduct = (props) => {
   }, [])
 
   useEffect(() => {
-
     // CLEANUP  
     let isSubscribed = true;    
     const getGameData = async(gameContract, contractAddress) => {
@@ -64,14 +64,30 @@ const SelectedProduct = (props) => {
             competitionPeriod: competitionPeriod,
             pricePredictionPeriod: pricePredictionPeriod,
             positions: [],
+            predictionPeriodCountdown: {
+              timeLeft: null,
+              durationDated: null,
+              isOverMessage: '',
+              isOver: false
+            },
+            gameEndsCountdown: {
+              timeLeft: null,
+              durationDated: null,
+              isOverMessage: '',
+              isOver: false
+            },
+            resolutionPeriodCountdown: {
+              timeLeft: null,
+              durationDated: null,
+              isOverMessage: '',
+              isOver: false
+            }
           }
         }
       }))
     }
-
-    if (isSubscribed === true) {
-      // for each contract get gameData
-      factoryContract.events.contractCreated({
+    const subscribeToData = async () => {
+      await factoryContract.events.contractCreated({
         fromBlock: 0,
         toBlock: 'latest',
       }, (error, event) => {
@@ -85,18 +101,23 @@ const SelectedProduct = (props) => {
         } else {
           console.log(error)
         }
-      })
+      })        
+    }
+    if (isSubscribed === true) {
+      // for each contract get gameData
+      subscribeToData();
       setState(state => ({
         ...state,
         isLoading: false,
       }));   
-      console.log(state)         
+      console.log(state) 
+
     } 
     return () => isSubscribed = false;
   }, [])
 
   const handleCountdown = (address, countdown, duration, countdownName, isOverMessage) => {
-    countdown = setInterval(function() {  
+    countdown = setInterval(() => {  
       // Get today's date and time
       let now = new Date().getTime();
       let durationDated = new Date(duration * 1000)
@@ -114,8 +135,13 @@ const SelectedProduct = (props) => {
           ...state.games,
           [address]: {
             ...state.games[address],
-            [countdownName]: timeLeft 
-          }    
+            [countdownName]: {
+              timeLeft: timeLeft,
+              durationDated: durationDated,
+              isOverMessage: isOverMessage,
+              isOver: false,
+            }
+          }
         }
       }))
       // If the count down is finished
@@ -127,15 +153,20 @@ const SelectedProduct = (props) => {
             ...state.games,
             [address]: {
               ...state.games[address],
-              [countdownName]: isOverMessage 
-            }    
+              [countdownName]: {
+                timeLeft: timeLeft,
+                durationDated: durationDated,
+                isOverMessage: isOverMessage,
+                isOver: true,
+              }
+            }
           }
-        }))         
+        }))        
       }
     }, 10000);      
   }
 
-  if (state.isLoading !== true) {
+  if (state.isLoading !== true ) {
     return (
       <div>
         <Graph product={props.graphUrl} timeSeriesKey={props.timeSeriesKey} OHLCKeys={props.OHLCKeys}/>  
