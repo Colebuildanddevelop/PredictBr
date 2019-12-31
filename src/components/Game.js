@@ -1,113 +1,98 @@
 import React, { useState, useEffect } from 'react';
+// MATERIAL UI
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Slider from '@material-ui/core/Slider';
+import Tooltip from '@material-ui/core/Tooltip';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
+
+const sliderShadow = '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)';
+// taken from material ui documentation
+const CustomSlider = withStyles({
+  root: {
+    color: '#3880ff',
+    height: 2,
+    padding: '15px 0',
+  },
+  thumb: {
+    height: 28,
+    width: 28,
+    backgroundColor: '#fff',
+    boxShadow: sliderShadow,
+    marginTop: -14,
+    marginLeft: -14,
+    '&:focus,&:hover,&$active': {
+      boxShadow: '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)',
+      // Reset on touch devices, it doesn't add specificity
+      '@media (hover: none)': {
+        boxShadow: sliderShadow,
+      },
+    },
+  },
+  active: {},
+  valueLabel: {
+    left: 'calc(-50% + 11px)',
+    top: -22,
+    '& *': {
+      background: 'transparent',
+      color: '#000',
+    },
+  },
+  track: {
+    height: 2,
+  },
+  rail: {
+    height: 2,
+    opacity: 0.5,
+    backgroundColor: '#bfbfbf',
+  },
+  mark: {
+    backgroundColor: '#bfbfbf',
+    height: 8,
+    width: 1,
+    marginTop: -3,
+  },
+  markActive: {
+    opacity: 1,
+    backgroundColor: 'currentColor',
+  },
+})(Slider);
+
+const useStyles = makeStyles(theme => ({
+  predictions: {
+    width: '100%'
+  }
+}));
+
+
+
+
 /*
  *  allows user to interact with the game contract
  */
 const Game = (props) => {
+  const classes = useStyles();
   const [state, setState] = useState({
-    assetPrice: null, 
-    winningPrediction: null,
-    numOfWinners: null, 
-    feeCollected: null, 
-    totalPredictionPool: null,
-    positions: [],
-  })
-  const [predictionVal, setPredictionVal] = useState(0);
+    predictionVal: '',
+  });
 
-  useEffect(() => {    
-    console.log(props)
+  const handleSlider = (e) => {
+    setState({
+      predictionVal: e.target.innerText
+    })
     console.log(state)
-    let isSubscribed = true;
-    const subscribeToGame = (gameContract) => {
-      // subscribe turn into hooks? 
-      gameContract.events.assetPriceSet({
-        fromBlock: 0,
-        toBlock: 'latest',
-      }, (error, event) => {
-        if (!error) {
-          setState(state => ({
-            ...state,
-            assetPrice: event.returnValues.price
-          }))
-        }  
-      })
-      gameContract.events.winningPredictionSet({
-        fromBlock: 0,
-        toBlock: 'latest',
-      }, (error, event) => {
-        if (!error) {
-          setState(state => ({
-            ...state,
-            winningPrediction: event.returnValues.prediction
-          }))                                         
-        }  
-      })
-      gameContract.events.numberOfWinners({
-        fromBlock: 0,
-        toBlock: 'latest',
-      }, (error, event) => {
-        if (!error) {
-          setState(state => ({
-            ...state,
-            numOfWinners: event.returnValues.winners                          
-          }))              
-        }  
-      })
-      gameContract.events.feeCollected({
-        fromBlock: 0,
-        toBlock: 'latest',
-      }, (error, event) => {
-        if (!error) {
-          setState(state => ({
-            ...state,       
-            feeCollected: event.returnValues.collected                          
-          }))                    
-        }  
-      })
-      gameContract.events.totalPredictionPool({
-        fromBlock: 0,
-        toBlock: 'latest',
-      }, (error, event) => {
-        if (!error) {
-          setState(state => ({
-            ...state,  
-            totalPredictionPool: event.returnValues.total                          
-          }))                        
-        }  
-      })
-      gameContract.events.positionAdded({
-        fromBlock: 0,
-        toBlock: 'latest',
-      }, (error, event) => {
-        if (!error) {
-          let player = event.returnValues.player
-          let predictionPrice = event.returnValues.predictionPrice
-          setState(state => ({
-            ...state,  
-            positions: [
-              ...state.positions,
-              {
-                player: player, 
-                predictionPrice: predictionPrice
-              }
-            ]                          
-          }))                                                          
-        }  
-      }) 
-    }    
-    if (isSubscribed === true) {
-      subscribeToGame(props.gameState.gameContract)
-    }
-    console.log(props)
-    console.log(state)
-    return () => isSubscribed = false;
-  }, [])
+
+  }
 
   // send user prediction and staked eth
   const handlePredict = () => {
     let value = parseInt(props.gameState.predictionCost, 10)
-    props.gameState.gameContract.methods.predict(predictionVal).send(
+    let predictionInt = parseInt(state.predictionVal, 10)
+    props.gameState.gameContract.methods.predict(predictionInt).send(
       {
-        from: props.myAddress[0], 
+        from: props.myAddress, 
         value: value,
         gas: 3000000
       })
@@ -124,9 +109,9 @@ const Game = (props) => {
   const handleClaimWinningPrediction = async() => {
     let differences = [];
     // get users positions and convert to differences    
-    let numOfPositions = await props.gameState.gameContract.methods.prediction_number(props.myAddress[0]).call()
+    let numOfPositions = await props.gameState.gameContract.methods.prediction_number(props.myAddress).call()
     for (let i=0; i<numOfPositions; i++) {
-      let userPrediction = await props.gameState.gameContract.methods.positions(props.myAddress[0], i).call()
+      let userPrediction = await props.gameState.gameContract.methods.positions(props.myAddress, i).call()
       differences.push((Math.abs(userPrediction - parseInt(props.gameState.assetPrice))))
     }
     // find the most accurate prediciton
@@ -135,7 +120,7 @@ const Game = (props) => {
     // call claim winning prediciton
     props.gameState.gameContract.methods.claim_winning_prediction(indexOfClosestPrediction)
       .send({
-        from: props.myAddress[0]
+        from: props.myAddress
       })
       .then((err, res) => {
         if (!err) {
@@ -154,17 +139,95 @@ const Game = (props) => {
       })
   }
   
-
-
   return (
-    <div>
-      <p>game</p>
-      <input type='number' min={1} value={predictionVal} onChange={(e) => setPredictionVal(e.target.value)} />
-      <button onClick={() => handlePredict()}>predict</button>
-      <button onClick={() => console.log(state)}>log prediction valu</button>
+    <div>    
+      <Grid container style={{marginTop: 20}}>        
+        <Grid item container>
+          <Typography align='left' className={classes.predictions}>
+            my predictions
+          </Typography>
+          {props.gameState.myPositions !== undefined &&
+            props.gameState.myPositions.predictions.map(prediction => {
+              return (
+                <Typography align='left' className={classes.predictions}>
+                  {prediction}
+                </Typography>
+              )
+            })   
+          }                             
+          <Grid item container xs={12}>
+            <Grid item xs={6}>                  
+              <Typography align='left'>
+                prediction price
+              </Typography>                            
+            </Grid>   
+            <Grid item xs={6}>                  
+              <Typography align='right' >
+                total predictions
+              </Typography>                       
+            </Grid> 
+          </Grid>    
+          {Object.keys(props.gameState.countedPredictions).map(prediction => {
+            return (     
+              <Grid item container xs={12}>
+                <Grid item xs={6}>                  
+                  <Typography align='left'>
+                    {prediction}
+                  </Typography>                                
+                </Grid>   
+                <Grid item xs={6}>                  
+                  <Typography align='right' >
+                    {props.gameState.countedPredictions[prediction]}
+                  </Typography>                       
+                </Grid> 
+              </Grid>                                    
+            )
+          })}                                        
+        </Grid>
+        <Grid item container xs={12}>
+          <Grid item xs={12}>
+            <CustomSlider 
+              aria-label="slider"
+              defaultValue={Math.floor(props.lastPrice)} 
+              max={Math.floor(props.lastPrice) * 5}
+              valueLabelDisplay="on" 
+              onChange={handleSlider}
+              aria-valuetext={state.predictionVal}     
+              step={1}         
+            />
+            <Button 
+              variant='contained' 
+              style={{width: '100%'}} 
+              onClick={handlePredict}
+            >
+              predict
+            </Button>
+          </Grid>
+          <Grid item xs={4}>
+            <Button 
+              variant='contained' 
+              style={{width: '100%'}} 
+              onClick={handleClaimWinningPrediction}
+            >
+              claim winning prediction
+            </Button>
+          </Grid>
+          <Grid item xs={4}>
+            <Button variant='contained'>
+              test
+            </Button>
+          </Grid>                    
+        </Grid>
+      </Grid>
     </div>
-
   )
 }
 
 export default Game;
+
+
+
+
+
+
+

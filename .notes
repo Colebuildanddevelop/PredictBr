@@ -80,7 +80,7 @@ PLANNING
 
 
   ONGOING todo
-  - isLoading loads on first game instead of waiting\
+  - isLoading loads on first game instead of waiting
   - change subscribing to game state to only subscribe when a game is selected
   - styling 
     - need more intricate plans for styling 
@@ -88,5 +88,14 @@ PLANNING
       - predict 
       - claim winning prediction
       - collect winnings
+      - positions
+      - all predictions  
+      - game state, 
+        - countdowns
+  - TESTING
+    - test same predictionPrice counter
+    -         
 
-  State Tree    
+  - game.js 
+    - if no predictions game doesnt load because of undefined
+  - dont allow predict same twice?

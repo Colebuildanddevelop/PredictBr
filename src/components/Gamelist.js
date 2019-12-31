@@ -14,10 +14,56 @@ const useStyles = makeStyles(theme => ({
     minWidth: '100%'
   },
   gameCard: {
-    height: 100,
+    height: 300,
     display: 'block'
   }
 }));
+
+const FormattedTime = (props) => {
+  // add a 0 to minutes less than 10
+  if (props.duration.getMinutes() < 10) {
+    return (
+      <Typography align='left'>
+        {props.name}: {props.duration.getMonth() + 1}/{props.duration.getDate() + 1}, {props.duration.getHours()}:0{props.duration.getMinutes()} 
+      </Typography>         
+    )
+  } else {
+    return (
+      <Typography align='left'>
+        {props.name}: {props.duration.getMonth() + 1}/{props.duration.getDate() + 1}, {props.duration.getHours()}:{props.duration.getMinutes()} 
+      </Typography>         
+    )
+  }
+}
+
+
+const CurrentGameState = (props) => {
+  if (props.game.predictionPeriodCountdown.isOver === true) {
+    if (props.game.gameEndsCountdown.isOver === true) {  
+      if (props.game.resolutionPeriodCountdown.isOver === true) {
+        return (                  
+        <Typography align='left'>
+          game has resolved
+        </Typography>                
+      )} else {
+        return (                  
+        <Typography align='left'>
+          resolution period {props.game.resolutionPeriodCountdown.timeLeft}
+        </Typography>                
+      )} 
+    } else {
+      return (              
+      <Typography align='left'>
+        game has started {props.game.gameEndsCountdown.timeLeft}
+      </Typography>            
+    )}
+  } else {
+    return (          
+    <Typography align='left'>
+      prediction period {props.game.predictionPeriodCountdown.timeLeft}
+    </Typography>        
+  )}
+}
 
 
 // gets a list of all availible and expired games
@@ -57,7 +103,7 @@ const Gamelist = (props) => {
   if (props.state.games !== undefined || null) {
     return (
       <div>
-        <Button variant='contained' onClick={() => handleCreateGame(props.state.myAddress[0], "spy", 1000000000, 5, 1)}>create game</Button>
+        <Button variant='contained' onClick={() => handleCreateGame(props.state.myAddress, "spy", 1000000000000000, 50, 1)}>create game</Button>
         <Button variant='contained' onClick={() => {console.log(props)}}>click</Button>
         <Grid container direction='column' style={{marginTop: 20}}>
           {Object.keys(props.state.games).map((game, key) => (
@@ -67,41 +113,41 @@ const Gamelist = (props) => {
                   <Grid item container>
                     <Grid item container xs={4}>
                       <Grid item  xs={12}>
-                        <Typography align='left'>
-                          state
-                        </Typography>
+                        {props.state.games[game].predictionPeriodCountdown.durationDated !== null &&
+                          <CurrentGameState game={props.state.games[game]} />
+                        }
+                      </Grid> 
+                      <Grid item xs={12}>                        
+                        {props.state.games[game].predictionPeriodCountdown.durationDated !== null &&
+                          <FormattedTime
+                            duration={props.state.games[game].predictionPeriodCountdown.durationDated} 
+                            name={'start'}  
+                          />                             
+                        }                                                  
                       </Grid> 
                       <Grid item xs={12}>
-                        
-                          {props.state.games[game].predictionPeriodCountdown.durationDated !== null &&
-                            <Typography align='left'>
-                              start: {props.state.games[game].predictionPeriodCountdown.durationDated.getDay()} / {props.state.games[game].predictionPeriodCountdown.durationDated.getDay()}
-                            </Typography>                              
-                          }
-                          
-                        
-                      </Grid> 
-                      <Grid item xs={12}>
-                        <Typography align='left'>
-                          end:
-                        </Typography>
-                      </Grid>                       
-
+                        {props.state.games[game].predictionPeriodCountdown.durationDated !== null &&
+                          <FormattedTime
+                            duration={props.state.games[game].gameEndsCountdown.durationDated} 
+                            name={'end'}  
+                          />                             
+                        }   
+                      </Grid>                                             
                     </Grid>
                     <Grid item xs={4}>
                       <Typography align='center' variant='h5'>
-                        name
+                        {props.state.games[game].predictionCost / (10**18)} ETH
                       </Typography>
                     </Grid>
                     <Grid item xs={4} >
                       <Grid item xs={12}>
                         <Typography align='right'>
-                          right
+                          total prize: {props.state.games[game].totalPredictionPool / (10**18)} ETH
                         </Typography>
                       </Grid> 
                       <Grid item xs={12}>
                         <Typography align='right'>
-                          right
+                          my positions : {props.state.games[game].myPositions.num}
                         </Typography>
                       </Grid>  
                     </Grid>                                        
@@ -117,7 +163,7 @@ const Gamelist = (props) => {
   } else {
     return (
       <div>
-        <button onClick={() => handleCreateGame(props.state.myAddress[0], "spy", 1000000000, 5, 1)}>create game</button>
+        <button onClick={() => handleCreateGame(props.state.myAddress, "spy", 1000000000000000000, 5, 1)}>create game</button>
         <button onClick={() => {console.log(props)}}>click</button>      
         <p>loading games</p>
       </div>
