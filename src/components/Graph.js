@@ -4,7 +4,6 @@ import { VictoryCandlestick, VictoryZoomContainer, VictoryChart, VictoryAxis, Vi
 
 const Graph = (props) => {
 
-
     return (
       <div style={{padding: 0}}>
 

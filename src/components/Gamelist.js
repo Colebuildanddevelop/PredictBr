@@ -6,8 +6,30 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
+import Drawer from '@material-ui/core/Drawer';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import NativeSelect from '@material-ui/core/NativeSelect';
+
+
 
 const useStyles = makeStyles(theme => ({
+  formControl: {    
+    width: '95%',
+    marginLeft: 10,
+    marginBottom: 10,
+  },
+  gameOption: {
+    margin: 'auto'
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },  
+  fullList: {
+    width: 'auto',
+  },  
   gameCardContainer: {
     margin: 'auto',
     maxWidth: '100%',
@@ -100,35 +122,35 @@ const Gamelist = (props) => {
   
   // inject into presentational components  
   // if statement wouldnt be necc if HOC didnt pass props until loaded
-  if (props.state.games !== undefined || null) {
+  if (props.state.gamesData.games !== undefined || null) {
     return (
       <div>
-        <Button variant='contained' onClick={() => handleCreateGame(props.state.myAddress, "spy", 1000000000000000, 50, 1)}>create game</Button>
-        <Button variant='contained' onClick={() => {console.log(props)}}>click</Button>
+        <Button onClick={() => console.log(props)}>state</Button>
+        <CreateGameDrawer handleCreateGame={handleCreateGame} myAddress={props.state.myAddress}/>        
         <Grid container direction='column' style={{marginTop: 20}}>
-          {Object.keys(props.state.games).map((game, key) => (
+          {Object.keys(props.state.gamesData.games).map((game, key) => (
             <Grid item className={classes.gameCardContainer}>
               <NavLink style={{ textDecoration: 'none', color: 'unset' }} color="inherit" to={`${url}/game_${game}`}>                
                 <Card className={classes.gameCard}>
                   <Grid item container>
                     <Grid item container xs={4}>
                       <Grid item  xs={12}>
-                        {props.state.games[game].predictionPeriodCountdown.durationDated !== null &&
-                          <CurrentGameState game={props.state.games[game]} />
+                        {props.state.gamesData.games[game].predictionPeriodCountdown.durationDated !== null &&
+                          <CurrentGameState game={props.state.gamesData.games[game]} />
                         }
                       </Grid> 
                       <Grid item xs={12}>                        
-                        {props.state.games[game].predictionPeriodCountdown.durationDated !== null &&
+                        {props.state.gamesData.games[game].predictionPeriodCountdown.durationDated !== null &&
                           <FormattedTime
-                            duration={props.state.games[game].predictionPeriodCountdown.durationDated} 
+                            duration={props.state.gamesData.games[game].predictionPeriodCountdown.durationDated} 
                             name={'start'}  
                           />                             
                         }                                                  
                       </Grid> 
                       <Grid item xs={12}>
-                        {props.state.games[game].predictionPeriodCountdown.durationDated !== null &&
+                        {props.state.gamesData.games[game].predictionPeriodCountdown.durationDated !== null &&
                           <FormattedTime
-                            duration={props.state.games[game].gameEndsCountdown.durationDated} 
+                            duration={props.state.gamesData.games[game].gameEndsCountdown.durationDated} 
                             name={'end'}  
                           />                             
                         }   
@@ -136,18 +158,18 @@ const Gamelist = (props) => {
                     </Grid>
                     <Grid item xs={4}>
                       <Typography align='center' variant='h5'>
-                        {props.state.games[game].predictionCost / (10**18)} ETH
+                        {props.state.gamesData.games[game].predictionCost / (10**18)} ETH
                       </Typography>
                     </Grid>
                     <Grid item xs={4} >
                       <Grid item xs={12}>
                         <Typography align='right'>
-                          total prize: {props.state.games[game].totalPredictionPool / (10**18)} ETH
+                          total prize: {props.state.gamesData.games[game].totalPredictionPool / (10**18)} ETH
                         </Typography>
                       </Grid> 
                       <Grid item xs={12}>
                         <Typography align='right'>
-                          my positions : {props.state.games[game].myPositions.num}
+                          my positions : {props.state.gamesData.games[game].myPositions.num}
                         </Typography>
                       </Grid>  
                     </Grid>                                        
@@ -156,22 +178,116 @@ const Gamelist = (props) => {
               </NavLink>    
             </Grid>
           ))}   
-        </Grid>
-     
+        </Grid>     
       </div>  
     )
   } else {
     return (
       <div>
-        <button onClick={() => handleCreateGame(props.state.myAddress, "spy", 1000000000000000000, 5, 1)}>create game</button>
-        <button onClick={() => {console.log(props)}}>click</button>      
         <p>loading games</p>
       </div>
 
     )
   }
-
 }
 
 export default Gamelist;
+
+
+
+
+
+
+const CreateGameDrawer = (props) => {
+  const classes = useStyles();
+  const [state, setState] = useState({
+    drawerOpen: false,   
+    stakes: 100000000000000,
+    start: 60,
+    end: 60 
+  });
+  const handleChange = name => event => {
+    setState({
+      ...state,
+      [name]: event.target.value,
+    });
+  };
+  const toggleDrawer = open => event => {
+    console.log(state)
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setState({
+      ...state,
+      drawerOpen: open
+    });
+  };
+
+  return (
+    <div>
+      <Button fullWidth={true} variant='contained' onClick={toggleDrawer(true)}>Create Game</Button>
+      <Drawer anchor="bottom" open={state.drawerOpen} onClose={toggleDrawer(false)}>
+        <Grid container direction='column' className={classes.gameOption}>
+          <Grid item>
+            <Typography align='center' style={{margin: 10}}>
+              please choose
+            </Typography> 
+          </Grid>
+          <Grid item>
+            <FormControl className={classes.formControl}>
+              <InputLabel>stakes...</InputLabel>
+              <Select
+                native
+                value={state.age}
+                onChange={handleChange('stakes')}  
+              >                
+                <option value={100000000000000}>.0001 ETH</option>
+                <option value={1000000000000000}>.001 ETH</option>
+                <option value={10000000000000000}>.01 ETH</option>
+                <option value={100000000000000000}>.1 ETH</option>
+                <option value={1000000000000000000}>1 ETH</option>
+                <option value={10000000000000000000}>10 ETH</option>                                
+              </Select>
+            </FormControl>          
+          </Grid>
+          <Grid item>
+            <FormControl className={classes.formControl}>
+              <InputLabel>game will start in one...</InputLabel>
+              <Select
+                native
+                value={state.age}
+                onChange={handleChange('start')}  
+              >
+                <option value={60}>hour</option>
+                <option value={1440}>day</option>
+                <option value={10080}>week</option>
+              </Select>
+            </FormControl>  
+          </Grid>
+          <Grid item>
+            <FormControl className={classes.formControl}>
+              <InputLabel>game will run for one...</InputLabel>
+              <Select
+                native
+                value={state.age}
+                onChange={handleChange('end')}  
+              >
+                <option value={60}>hour</option>
+                <option value={1440}>day</option>
+                <option value={10080}>week</option>
+                <option value={43800}>month</option>
+              </Select>
+            </FormControl>  
+          </Grid>
+          <Grid item>
+            <Button variant='contained' fullWidth={true} onClick={() => props.handleCreateGame(props.myAddress, "spy", state.stakes, state.start, state.end)}>create game</Button>
+          </Grid>          
+        </Grid>        
+      </Drawer>
+    </div>
+  );
+}
+
+
+
 

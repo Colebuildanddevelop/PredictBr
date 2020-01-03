@@ -581,7 +581,8 @@ export const ContractData = {
       high: '2. high',
       low:  '3. low',
       close: '4. close',
-    }
+    },
+    timeSeriesKey: 'Time Series (Daily)'
   },
   spy: {
     factoryAbi: [
@@ -1165,7 +1166,8 @@ export const ContractData = {
       high: '2. high',
       low:  '3. low',
       close: '4. close',
-    }
+    },
+    timeSeriesKey: 'Time Series (Daily)'
   },
   gld: {
     factoryAbi: [
@@ -1749,7 +1751,8 @@ export const ContractData = {
       high: '2. high',
       low:  '3. low',
       close: '4. close',
-    }
+    },
+    timeSeriesKey: 'Time Series (Daily)'
   },
   eth: {
     factoryAbi: [
@@ -2333,7 +2336,8 @@ export const ContractData = {
       high: '2b. high (USD)',
       low:  '3b. low (USD)',
       close: '4b. close (USD)',
-    }
+    },
+    timeSeriesKey: 'Time Series (Digital Currency Daily)'
   },
 
 }

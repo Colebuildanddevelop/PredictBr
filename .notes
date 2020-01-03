@@ -93,9 +93,25 @@ PLANNING
       - game state, 
         - countdowns
   - TESTING
-    - test same predictionPrice counter
+    - test same predictionPrice counter, works
     -         
 
   - game.js 
     - if no predictions game doesnt load because of undefined
+
+  - gamelist.js
+    - create game needs to have a form for params...
+    - if their are no games, it will display 'loading games' which is not true 
+    - 
+  
+  - SelectedProduct
+    - if no positions on ANY of the games, then my positions will not initially fire because games === undefined initally and num of positions never gets incremented....  
+    
+
+
+
   - dont allow predict same twice?
+  - confirmations on actions
+    - loading animations
+  - reload on game created>...? 
+  - notes for the code to show function params etc 

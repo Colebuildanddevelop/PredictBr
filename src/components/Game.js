@@ -63,6 +63,9 @@ const CustomSlider = withStyles({
 const useStyles = makeStyles(theme => ({
   predictions: {
     width: '100%'
+  },
+  controlPanel: {
+    marginTop: 20
   }
 }));
 
@@ -135,7 +138,7 @@ const Game = (props) => {
   const collectWinnings = () => {
     props.gameState.gameContract.methods.collect_my_winnings()
       .send({
-        from: props.myAddress[0]
+        from: props.myAddress
       })
   }
   
@@ -146,7 +149,7 @@ const Game = (props) => {
           <Typography align='left' className={classes.predictions}>
             my predictions
           </Typography>
-          {props.gameState.myPositions !== undefined &&
+          {props.gameState.myPositions.predictions > 0 &&
             props.gameState.myPositions.predictions.map(prediction => {
               return (
                 <Typography align='left' className={classes.predictions}>
@@ -167,25 +170,27 @@ const Game = (props) => {
               </Typography>                       
             </Grid> 
           </Grid>    
-          {Object.keys(props.gameState.countedPredictions).map(prediction => {
-            return (     
-              <Grid item container xs={12}>
-                <Grid item xs={6}>                  
-                  <Typography align='left'>
-                    {prediction}
-                  </Typography>                                
-                </Grid>   
-                <Grid item xs={6}>                  
-                  <Typography align='right' >
-                    {props.gameState.countedPredictions[prediction]}
-                  </Typography>                       
-                </Grid> 
-              </Grid>                                    
-            )
-          })}                                        
+          {props.gameState.countedPredictions !== null &&
+            Object.keys(props.gameState.countedPredictions).map(prediction => {
+              return (     
+                <Grid item container xs={12}>
+                  <Grid item xs={6}>                  
+                    <Typography align='left'>
+                      {prediction}
+                    </Typography>                                
+                  </Grid>   
+                  <Grid item xs={6}>                  
+                    <Typography align='right' >
+                      {props.gameState.countedPredictions[prediction]}
+                    </Typography>                       
+                  </Grid> 
+                </Grid>                                    
+              )
+            })
+          }                                        
         </Grid>
         <Grid item container xs={12}>
-          <Grid item xs={12}>
+          <Grid item xs={12} className={classes.controlPanel}>
             <CustomSlider 
               aria-label="slider"
               defaultValue={Math.floor(props.lastPrice)} 
@@ -203,7 +208,7 @@ const Game = (props) => {
               predict
             </Button>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} className={classes.controlPanel}>
             <Button 
               variant='contained' 
               style={{width: '100%'}} 
@@ -212,11 +217,15 @@ const Game = (props) => {
               claim winning prediction
             </Button>
           </Grid>
-          <Grid item xs={4}>
-            <Button variant='contained'>
-              test
+          <Grid item xs={12} className={classes.controlPanel}>
+            <Button 
+              variant='contained' 
+              style={{width: '100%'}} 
+              onClick={collectWinnings}
+            >
+              collect winnings
             </Button>
-          </Grid>                    
+          </Grid>                  
         </Grid>
       </Grid>
     </div>
