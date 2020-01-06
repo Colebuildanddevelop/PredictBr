@@ -144,12 +144,13 @@ const Game = (props) => {
   
   return (
     <div>    
+      <button onClick={() => console.log(props)}></button>
       <Grid container style={{marginTop: 20}}>        
         <Grid item container>
           <Typography align='left' className={classes.predictions}>
             my predictions
           </Typography>
-          {props.gameState.myPositions.predictions > 0 &&
+          {props.gameState.myPositions.predictions.length > 0 &&
             props.gameState.myPositions.predictions.map(prediction => {
               return (
                 <Typography align='left' className={classes.predictions}>

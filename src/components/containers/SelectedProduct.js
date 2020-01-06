@@ -17,6 +17,7 @@ const SelectedProduct = (props) => {
   const { web3 } = props;  
   const [state, setState] = useState({
     isLoading: true,
+    games: null,
   })
   // get graph data using hook
   let graphData = useGraph(props.contractData)  
@@ -29,25 +30,16 @@ const SelectedProduct = (props) => {
   }, [graphData])
   // games data hook
   const factoryContract = new web3.eth.Contract(props.contractData.factoryAbi, props.contractData.factoryAddress);  
-  let gamesData = useGameData(web3, factoryContract, props.contractData.gameAbi )
+  let gamesData = useGameData(web3, factoryContract, props.contractData.gameAbi)
   useEffect(() => {
-    setState(state => ({
-      ...state,
-      isLoading: false,
-      gamesData
-    }))
-  }, [gamesData])
 
-
-  useEffect(() => {
-    const handlePositions = () => {
-      console.log(state.gamesData)
-      if (state.gamesData !== undefined) {
-        console.log('handling positions')
-        // key is gameAddress, value is gameState
-        for (let [key, value] of Object.entries(state.gamesData.games)) {
-          console.log(value.positions)
-          console.log(state.myAddress)
+    const handlePositions = (games, myAddress) => {
+      console.log(games !== undefined)
+      console.log('handling positions')
+      // key is gameAddress, value is gameState
+      if (games !== undefined && games !== null) {
+        for (let [key, value] of Object.entries(games)) {
+          console.log('entires')
           let counter = 0;
           let playerPredictions = [];
           // predictions.price.count
@@ -55,7 +47,9 @@ const SelectedProduct = (props) => {
           // for each position
           value.positions.forEach(position => {       
             // get players positions     
+            console.log(position.predictionPrice)
             if (position.player === state.myAddress) {
+
               counter += 1;
               playerPredictions.push(position.predictionPrice)
               console.log(counter)              
@@ -68,29 +62,38 @@ const SelectedProduct = (props) => {
               predictions[position.predictionPrice] = 1;
             }                        
           })
+          console.log(playerPredictions)
           setState(state => ({
             ...state,
-            
-            gamesData: {
-              games: {
-                ...state.gamesData.games,
-                [key]: {
-                  ...state.gamesData.games[key],
-                  countedPredictions: predictions,
-                  myPositions: {
-                    num: counter,
-                    predictions: playerPredictions
-                  }
+            games: {
+              ...state.games,
+              [key]: {
+                ...state.games[key],
+                countedPredictions: predictions,
+                myPositions: {
+                  num: counter,
+                  predictions: playerPredictions
                 }
               }
             }
-
           }))
+          
         }
-      }
-    }    
-    handlePositions();
-  }, [state.numOfPositions])
+      }      
+    }         
+    setState(state => ({
+      ...state,
+      games: gamesData.games,
+      myAddress: gamesData.myAddress,
+      numOfPositions: gamesData.numOfPositions
+    }))    
+    handlePositions(gamesData.games, gamesData.myAddress)       
+    setState(state => ({
+      ...state,
+      isLoading: false,
+    })) 
+  }, [gamesData])
+
 
   if (state.isLoading !== true) {
     return (
@@ -103,7 +106,7 @@ const SelectedProduct = (props) => {
           <Route 
             exact path={`${path}/game_:id`}
             render={({match}) => <Game
-              gameState={state.gamesData.games[match.params.id]} 
+              gameState={state.games[match.params.id]} 
               myAddress={state.myAddress} 
               lastPrice={state.productData[0].close}
             />}

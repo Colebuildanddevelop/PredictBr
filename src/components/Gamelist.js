@@ -122,35 +122,35 @@ const Gamelist = (props) => {
   
   // inject into presentational components  
   // if statement wouldnt be necc if HOC didnt pass props until loaded
-  if (props.state.gamesData.games !== undefined || null) {
+  if (props.state.games !== undefined && props.state.games !== null) {
     return (
       <div>
         <Button onClick={() => console.log(props)}>state</Button>
         <CreateGameDrawer handleCreateGame={handleCreateGame} myAddress={props.state.myAddress}/>        
         <Grid container direction='column' style={{marginTop: 20}}>
-          {Object.keys(props.state.gamesData.games).map((game, key) => (
+          {Object.keys(props.state.games).map((game, key) => (
             <Grid item className={classes.gameCardContainer}>
               <NavLink style={{ textDecoration: 'none', color: 'unset' }} color="inherit" to={`${url}/game_${game}`}>                
                 <Card className={classes.gameCard}>
                   <Grid item container>
                     <Grid item container xs={4}>
                       <Grid item  xs={12}>
-                        {props.state.gamesData.games[game].predictionPeriodCountdown.durationDated !== null &&
-                          <CurrentGameState game={props.state.gamesData.games[game]} />
+                        {props.state.games[game].predictionPeriodCountdown.durationDated !== null &&
+                          <CurrentGameState game={props.state.games[game]} />
                         }
                       </Grid> 
                       <Grid item xs={12}>                        
-                        {props.state.gamesData.games[game].predictionPeriodCountdown.durationDated !== null &&
+                        {props.state.games[game].predictionPeriodCountdown.durationDated !== null &&
                           <FormattedTime
-                            duration={props.state.gamesData.games[game].predictionPeriodCountdown.durationDated} 
+                            duration={props.state.games[game].predictionPeriodCountdown.durationDated} 
                             name={'start'}  
                           />                             
                         }                                                  
                       </Grid> 
                       <Grid item xs={12}>
-                        {props.state.gamesData.games[game].predictionPeriodCountdown.durationDated !== null &&
+                        {props.state.games[game].predictionPeriodCountdown.durationDated !== null &&
                           <FormattedTime
-                            duration={props.state.gamesData.games[game].gameEndsCountdown.durationDated} 
+                            duration={props.state.games[game].gameEndsCountdown.durationDated} 
                             name={'end'}  
                           />                             
                         }   
@@ -158,18 +158,18 @@ const Gamelist = (props) => {
                     </Grid>
                     <Grid item xs={4}>
                       <Typography align='center' variant='h5'>
-                        {props.state.gamesData.games[game].predictionCost / (10**18)} ETH
+                        {props.state.games[game].predictionCost / (10**18)} ETH
                       </Typography>
                     </Grid>
                     <Grid item xs={4} >
                       <Grid item xs={12}>
                         <Typography align='right'>
-                          total prize: {props.state.gamesData.games[game].totalPredictionPool / (10**18)} ETH
+                          total prize: {props.state.games[game].totalPredictionPool / (10**18)} ETH
                         </Typography>
                       </Grid> 
                       <Grid item xs={12}>
                         <Typography align='right'>
-                          my positions : {props.state.gamesData.games[game].myPositions.num}
+                          my positions : {props.state.games[game].myPositions.num}
                         </Typography>
                       </Grid>  
                     </Grid>                                        

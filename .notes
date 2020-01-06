@@ -115,3 +115,56 @@ PLANNING
     - loading animations
   - reload on game created>...? 
   - notes for the code to show function params etc 
+
+
+
+    const handlePositions = () => {
+      console.log(state)
+      console.log('handling positions')
+      // key is gameAddress, value is gameState
+      if (state.games !== undefined || state.games !== null) {
+        for (let [key, value] of Object.entries(state.games)) {
+    
+          let counter = 0;
+          let playerPredictions = [];
+          // predictions.price.count
+          let predictions = {};
+          // for each position
+          value.positions.forEach(position => {       
+            // get players positions     
+            console.log(position.player === state.myAddress)
+            console.log(state.myAddress)
+            if (position.player === state.myAddress) {
+              counter += 1;
+              playerPredictions.push(position.predictionPrice)
+              console.log(counter)              
+            }
+            // if prediction has been counted add to the count 
+            let predictionKeys = Object.keys(predictions)
+            if (predictionKeys.includes(position.predictionPrice) === true) {
+              predictions[position.predictionPrice] += 1;
+            } else {
+              predictions[position.predictionPrice] = 1;
+            }                        
+          })
+          setState(state => ({
+            ...state,
+            games: {
+              ...state.games,
+              [key]: {
+                ...state.games[key],
+                countedPredictions: predictions,
+                myPositions: {
+                  num: counter,
+                  predictions: playerPredictions
+                }
+              }
+            }
+          }))
+          
+        }
+      }
+      
+    }    
+
+    handlePositions();  
