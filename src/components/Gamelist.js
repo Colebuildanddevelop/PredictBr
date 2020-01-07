@@ -12,7 +12,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
-
+// Components
+import CircularLoading from './CircularLoading';
 
 
 const useStyles = makeStyles(theme => ({
@@ -32,12 +33,18 @@ const useStyles = makeStyles(theme => ({
   },  
   gameCardContainer: {
     margin: 'auto',
+    marginBottom: 20,
     maxWidth: '100%',
-    minWidth: '100%'
+    minWidth: '100%',
   },
   gameCard: {
-    height: 300,
+    height: 100,
+    padding: 10,
     display: 'block'
+  },
+  createGameButton: {
+    backgroundColor: '#153819',
+    color: 'white'
   }
 }));
 
@@ -45,158 +52,29 @@ const FormattedTime = (props) => {
   // add a 0 to minutes less than 10
   if (props.duration.getMinutes() < 10) {
     return (
-      <Typography align='left'>
-        {props.name}: {props.duration.getMonth() + 1}/{props.duration.getDate() + 1}, {props.duration.getHours()}:0{props.duration.getMinutes()} 
-      </Typography>         
-    )
-  } else {
-    return (
-      <Typography align='left'>
-        {props.name}: {props.duration.getMonth() + 1}/{props.duration.getDate() + 1}, {props.duration.getHours()}:{props.duration.getMinutes()} 
-      </Typography>         
-    )
-  }
-}
-
-
-const CurrentGameState = (props) => {
-  if (props.game.predictionPeriodCountdown.isOver === true) {
-    if (props.game.gameEndsCountdown.isOver === true) {  
-      if (props.game.resolutionPeriodCountdown.isOver === true) {
-        return (                  
-        <Typography align='left'>
-          game has resolved
-        </Typography>                
-      )} else {
-        return (                  
-        <Typography align='left'>
-          resolution period {props.game.resolutionPeriodCountdown.timeLeft}
-        </Typography>                
-      )} 
-    } else {
-      return (              
-      <Typography align='left'>
-        game has started {props.game.gameEndsCountdown.timeLeft}
-      </Typography>            
-    )}
-  } else {
-    return (          
-    <Typography align='left'>
-      prediction period {props.game.predictionPeriodCountdown.timeLeft}
-    </Typography>        
-  )}
-}
-
-
-// gets a list of all availible and expired games
-const Gamelist = (props) => {
-  const classes = useStyles();
-  let { url } = useRouteMatch();
-
-   
-  // create game functionality 
-  // handle click for creating a Game
-  const handleCreateGame = (
-    playerAddress,
-    gameName, 
-    predictionCost, 
-    timeToStart, 
-    durationMinutes
-    ) => {
-    props.factoryContract.methods.createGame(
-      gameName, 
-      predictionCost, 
-      timeToStart, 
-      durationMinutes
-    ).send({
-      from: playerAddress
-    })
-    .then((error, result) => {
-      if (!error) {
-        console.log(result)
-      } else {
-        console.log(error)
-      }
-    })
-  }  
-  
-  // inject into presentational components  
-  // if statement wouldnt be necc if HOC didnt pass props until loaded
-  if (props.state.games !== undefined && props.state.games !== null) {
-    return (
       <div>
-        <Button onClick={() => console.log(props)}>state</Button>
-        <CreateGameDrawer handleCreateGame={handleCreateGame} myAddress={props.state.myAddress}/>        
-        <Grid container direction='column' style={{marginTop: 20}}>
-          {Object.keys(props.state.games).map((game, key) => (
-            <Grid item className={classes.gameCardContainer}>
-              <NavLink style={{ textDecoration: 'none', color: 'unset' }} color="inherit" to={`${url}/game_${game}`}>                
-                <Card className={classes.gameCard}>
-                  <Grid item container>
-                    <Grid item container xs={4}>
-                      <Grid item  xs={12}>
-                        {props.state.games[game].predictionPeriodCountdown.durationDated !== null &&
-                          <CurrentGameState game={props.state.games[game]} />
-                        }
-                      </Grid> 
-                      <Grid item xs={12}>                        
-                        {props.state.games[game].predictionPeriodCountdown.durationDated !== null &&
-                          <FormattedTime
-                            duration={props.state.games[game].predictionPeriodCountdown.durationDated} 
-                            name={'start'}  
-                          />                             
-                        }                                                  
-                      </Grid> 
-                      <Grid item xs={12}>
-                        {props.state.games[game].predictionPeriodCountdown.durationDated !== null &&
-                          <FormattedTime
-                            duration={props.state.games[game].gameEndsCountdown.durationDated} 
-                            name={'end'}  
-                          />                             
-                        }   
-                      </Grid>                                             
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Typography align='center' variant='h5'>
-                        {props.state.games[game].predictionCost / (10**18)} ETH
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={4} >
-                      <Grid item xs={12}>
-                        <Typography align='right'>
-                          total prize: {props.state.games[game].totalPredictionPool / (10**18)} ETH
-                        </Typography>
-                      </Grid> 
-                      <Grid item xs={12}>
-                        <Typography align='right'>
-                          my positions : {props.state.games[game].myPositions.num}
-                        </Typography>
-                      </Grid>  
-                    </Grid>                                        
-                  </Grid>                              
-                </Card>
-              </NavLink>    
-            </Grid>
-          ))}   
-        </Grid>     
-      </div>  
+        <Typography align='left' display='inline' style={{fontWeight: 'bold'}}>
+          {props.name}
+        </Typography>      
+        <Typography align='left' display='inline'>
+          : {props.duration.getMonth() + 1}/{props.duration.getDate() + 1}, {props.duration.getHours()}:0{props.duration.getMinutes()} 
+        </Typography>     
+      </div>    
     )
   } else {
     return (
       <div>
-        <p>loading games</p>
-      </div>
-
-    )
+        <Typography align='left' display='inline' style={{fontWeight: 'bold'}}>
+          {props.name}
+        </Typography>      
+        <Typography align='left' display='inline'>
+          : {props.duration.getMonth() + 1}/{props.duration.getDate() + 1}, {props.duration.getHours()}:{props.duration.getMinutes()} 
+        </Typography>     
+      </div>    
+    )     
+    
   }
 }
-
-export default Gamelist;
-
-
-
-
-
 
 const CreateGameDrawer = (props) => {
   const classes = useStyles();
@@ -225,7 +103,7 @@ const CreateGameDrawer = (props) => {
 
   return (
     <div>
-      <Button fullWidth={true} variant='contained' onClick={toggleDrawer(true)}>Create Game</Button>
+      <Button className={classes.createGameButton} fullWidth={true} variant='contained' onClick={toggleDrawer(true)}>Create Game</Button>
       <Drawer anchor="bottom" open={state.drawerOpen} onClose={toggleDrawer(false)}>
         <Grid container direction='column' className={classes.gameOption}>
           <Grid item>
@@ -288,6 +166,137 @@ const CreateGameDrawer = (props) => {
   );
 }
 
+const CurrentGameState = (props) => {
+  if (props.game.predictionPeriodCountdown.isOver === true) {
+    if (props.game.gameEndsCountdown.isOver === true) {  
+      if (props.game.resolutionPeriodCountdown.isOver === true) {
+        return (                  
+        <Typography align='left' style={{fontWeight: 'bold'}}>
+          game has resolved
+        </Typography>                
+      )} else {
+        return (                  
+        <Typography align='left' style={{fontWeight: 'bold'}}>
+          resolution period {props.game.resolutionPeriodCountdown.timeLeft}
+        </Typography>                
+      )} 
+    } else {
+      return (              
+      <Typography align='left' style={{fontWeight: 'bold'}}>
+        game has started {props.game.gameEndsCountdown.timeLeft}
+      </Typography>            
+    )}
+  } else {
+    return (          
+    <Typography align='left' style={{fontWeight: 'bold'}}>
+      prediction period {props.game.predictionPeriodCountdown.timeLeft}
+    </Typography>        
+  )}
+}
 
+// gets a list of all availible and expired games
+const Gamelist = (props) => {
+  const classes = useStyles();
+  let { url } = useRouteMatch();
+   
+  // create game functionality 
+  // handle click for creating a Game
+  const handleCreateGame = (
+    playerAddress,
+    gameName, 
+    predictionCost, 
+    timeToStart, 
+    durationMinutes
+    ) => {
+    props.factoryContract.methods.createGame(
+      gameName, 
+      predictionCost, 
+      timeToStart, 
+      durationMinutes
+    ).send({
+      from: playerAddress
+    })
+    .then((error, result) => {
+      if (!error) {
+        alert(result)
+      } else {
+        alert(error)
+      }
+    })
+  }  
+  
+  // inject into presentational components  
+  // if statement wouldnt be necc if HOC didnt pass props until loaded
+  if (props.state.games !== undefined && props.state.games !== null) {
+    return (
+      <div>
+        <CreateGameDrawer handleCreateGame={handleCreateGame} myAddress={props.state.myAddress}/>        
+        <Grid container direction='column' style={{marginTop: 20}}>
+          {Object.keys(props.state.games).map((game, key) => (
+            <Grid item className={classes.gameCardContainer}>
+              <NavLink style={{ textDecoration: 'none', color: 'unset' }} color="inherit" to={`${url}/game_${game}`}>                
+                <Card className={classes.gameCard}>
+                  <Grid item container>
+                    {props.state.games[game].predictionPeriodCountdown.durationDated !== null ? (
+                      <div>
+                        <Grid item container xs={6}>
+                          <Grid item xs={12}>                        
+                              
+                                <CurrentGameState game={props.state.games[game]} />
+                                <FormattedTime
+                                  duration={props.state.games[game].predictionPeriodCountdown.durationDated} 
+                                  name={'start'}  
+                                />          
+                                <FormattedTime
+                                  duration={props.state.games[game].gameEndsCountdown.durationDated} 
+                                  name={'end'}  
+                                /> 
+                                                                                                                         
+                          </Grid>                                         
+                        </Grid>
+                        <Grid item xs={6} >     
+                          <Grid item xs={12}>     
+                            <Typography align='right'>
+                              <div style={{fontWeight: 'bold', display: 'inline'}}>my positions: </div>{props.state.games[game].myPositions.num}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12}>        
+                            <Typography align='right'>
+                              <div style={{fontWeight: 'bold', display: 'inline'}}>stake: </div>{props.state.games[game].predictionCost / (10**18)} ETH
+                            </Typography>                                                        
+                            <Typography align='right'>
+                              <div style={{fontWeight: 'bold', display: 'inline'}}>prize pool: </div>{props.state.games[game].totalPredictionPool / (10**18)} ETH
+                            </Typography>                         
+                          </Grid> 
+                        </Grid>   
+                      </div>
+                    ) : (
+                      <Grid item container xs={12}>
+
+                        <CircularLoading/>
+                      </Grid>
+                    )}                                                           
+                  </Grid>                              
+                </Card>
+              </NavLink>    
+            </Grid>
+          ))}   
+        </Grid>     
+      </div>  
+    )
+  } else {
+    return (
+      <div>
+        <CreateGameDrawer handleCreateGame={handleCreateGame} myAddress={props.state.myAddress}/>        
+        <p>{props.state.myAddress}</p>
+        <p>{props.state.games}</p>
+        <CircularLoading/>
+      </div>
+
+    )
+  }
+}
+
+export default Gamelist;
 
 

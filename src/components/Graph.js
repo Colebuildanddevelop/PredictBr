@@ -5,8 +5,7 @@ import { VictoryCandlestick, VictoryZoomContainer, VictoryChart, VictoryAxis, Vi
 const Graph = (props) => {
 
     return (
-      <div style={{padding: 0}}>
-
+      <div>
         <VictoryChart
           containerComponent={
             <VictoryCursorContainer
@@ -14,11 +13,11 @@ const Graph = (props) => {
             />
           }
           theme={VictoryTheme.material}
-          domainPadding={{ x: 0 }}
+          domainPadding={{ x: 10 }}
           scale={{ x: "time" }}
         >
-          <VictoryAxis tickCount={2} style={{tickLabels: {fontSize: 20, padding: 0}}} tickFormat={(t) => `${t.getMonth()}/${t.getDate()}`}/>
-          <VictoryAxis dependentAxis tickCount={5} style={{tickLabels: {fontSize: 20, padding: 0}}}/>  
+          <VictoryAxis tickCount={2} style={{tickLabels: {fontSize: 15, padding: 0}}} tickFormat={(t) => `${t.getMonth()}/${t.getDate()}`}/>
+          <VictoryAxis dependentAxis tickCount={5} style={{tickLabels: {fontSize: 15, padding: 0}}}/>  
           <VictoryCandlestick
             candleColors={{ positive: "#5f5c5b", negative: "#c43a31" }}
             data={props.productData}        
@@ -31,7 +30,6 @@ const Graph = (props) => {
                 pointerWidth={5}                
               />
             }
-  
           />        
         </VictoryChart>
       </div>  

@@ -1,6 +1,5 @@
 import React from 'react';
 import Graph from './Graph';
-import SampleGraph from './SampleGraph'
 import { NavLink } from 'react-router-dom';
 // MATERIAL UI
 import Grid from '@material-ui/core/Grid';
@@ -13,8 +12,12 @@ const useStyles = makeStyles(theme => ({
     padding: 10
   },
   button: {
-    width: 150,
-    height: 150
+    width: 250,
+    height: 150,
+    backgroundColor: '#616161',
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 15
   }
 }));
 

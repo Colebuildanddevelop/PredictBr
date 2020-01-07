@@ -8,7 +8,7 @@ import Graph from '../Graph';
 import { useGraph } from '../../hooks/useGraph';
 import { useGameData } from '../../hooks/useGameData';
 // MATERIAL UI 
-
+import Typography from '@material-ui/core/Typography'
 
 const SelectedProduct = (props) => {
   // REACT ROUTER
@@ -22,20 +22,17 @@ const SelectedProduct = (props) => {
   // get graph data using hook
   let graphData = useGraph(props.contractData)  
   useEffect(() => {
-    console.log('loading')
     setState( state => ({
       ...state,
       productData: graphData
     }))
   }, [graphData])
+  
   // games data hook
   const factoryContract = new web3.eth.Contract(props.contractData.factoryAbi, props.contractData.factoryAddress);  
   let gamesData = useGameData(web3, factoryContract, props.contractData.gameAbi)
   useEffect(() => {
-
     const handlePositions = (games, myAddress) => {
-      console.log(games !== undefined)
-      console.log('handling positions')
       // key is gameAddress, value is gameState
       if (games !== undefined && games !== null) {
         for (let [key, value] of Object.entries(games)) {
@@ -98,6 +95,9 @@ const SelectedProduct = (props) => {
   if (state.isLoading !== true) {
     return (
       <div>
+        <Typography align='center' variant='h5' style={{fontWeight: 'bold'}}>
+          {props.productName}
+        </Typography>
         <Graph productData={state.productData} />  
         <Switch>
           <Route exact path={path}>
