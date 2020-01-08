@@ -12,8 +12,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
-// Components
-import CircularLoading from './CircularLoading';
+import CircularProgress from '@material-ui/core/CircularProgress';
+// COMPONENTS
 
 
 const useStyles = makeStyles(theme => ({
@@ -23,7 +23,8 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 10,
   },
   gameOption: {
-    margin: 'auto'
+    margin: 'auto',
+    backgroundColor: '#e8e8e8'
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -38,43 +39,16 @@ const useStyles = makeStyles(theme => ({
     minWidth: '100%',
   },
   gameCard: {
-    height: 100,
+    height: 80,
     padding: 10,
-    display: 'block'
+    display: 'block',
+    backgroundColor: '#e8e8e8'
   },
   createGameButton: {
-    backgroundColor: '#153819',
+    background: 'linear-gradient(45deg, #5ee07d 30%, #51ccf5 90%)',
     color: 'white'
   }
 }));
-
-const FormattedTime = (props) => {
-  // add a 0 to minutes less than 10
-  if (props.duration.getMinutes() < 10) {
-    return (
-      <div>
-        <Typography align='left' display='inline' style={{fontWeight: 'bold'}}>
-          {props.name}
-        </Typography>      
-        <Typography align='left' display='inline'>
-          : {props.duration.getMonth() + 1}/{props.duration.getDate() + 1}, {props.duration.getHours()}:0{props.duration.getMinutes()} 
-        </Typography>     
-      </div>    
-    )
-  } else {
-    return (
-      <div>
-        <Typography align='left' display='inline' style={{fontWeight: 'bold'}}>
-          {props.name}
-        </Typography>      
-        <Typography align='left' display='inline'>
-          : {props.duration.getMonth() + 1}/{props.duration.getDate() + 1}, {props.duration.getHours()}:{props.duration.getMinutes()} 
-        </Typography>     
-      </div>    
-    )     
-    
-  }
-}
 
 const CreateGameDrawer = (props) => {
   const classes = useStyles();
@@ -107,7 +81,7 @@ const CreateGameDrawer = (props) => {
       <Drawer anchor="bottom" open={state.drawerOpen} onClose={toggleDrawer(false)}>
         <Grid container direction='column' className={classes.gameOption}>
           <Grid item>
-            <Typography align='center' style={{margin: 10}}>
+            <Typography align='center' style={{margin: 10, color: 'black'}}>
               please choose
             </Typography> 
           </Grid>
@@ -117,7 +91,7 @@ const CreateGameDrawer = (props) => {
               <Select
                 native
                 value={state.age}
-                onChange={handleChange('stakes')}  
+                onChange={handleChange('stakes')}            
               >                
                 <option value={100000000000000}>.0001 ETH</option>
                 <option value={1000000000000000}>.001 ETH</option>
@@ -134,7 +108,7 @@ const CreateGameDrawer = (props) => {
               <Select
                 native
                 value={state.age}
-                onChange={handleChange('start')}  
+                onChange={handleChange('start')}         
               >
                 <option value={60}>hour</option>
                 <option value={1440}>day</option>
@@ -149,6 +123,7 @@ const CreateGameDrawer = (props) => {
                 native
                 value={state.age}
                 onChange={handleChange('end')}  
+               
               >
                 <option value={60}>hour</option>
                 <option value={1440}>day</option>
@@ -158,12 +133,50 @@ const CreateGameDrawer = (props) => {
             </FormControl>  
           </Grid>
           <Grid item>
-            <Button variant='contained' fullWidth={true} onClick={() => props.handleCreateGame(props.myAddress, "spy", state.stakes, state.start, state.end)}>create game</Button>
+            <Button
+              variant='contained'
+              fullWidth={true} 
+              style={{
+                color: 'white',
+                backgroundColor: '#ff3333'
+              }}
+              onClick={() => props.handleCreateGame(props.myAddress, "spy", state.stakes, state.start, state.end)}
+            >
+              create game
+            </Button>
           </Grid>          
         </Grid>        
       </Drawer>
     </div>
   );
+}
+
+const FormattedTime = (props) => {
+  // add a 0 to minutes less than 10
+  if (props.duration.getMinutes() < 10) {
+    return (
+      <div>
+        <Typography align='left' display='inline' style={{fontWeight: 'bold'}}>
+          {props.name}
+        </Typography>      
+        <Typography align='left' display='inline'>
+          : {props.duration.getMonth() + 1}/{props.duration.getDate() + 1}, {props.duration.getHours()}:0{props.duration.getMinutes()} 
+        </Typography>     
+      </div>    
+    )
+  } else {
+    return (
+      <div>
+        <Typography align='left' display='inline' style={{fontWeight: 'bold'}}>
+          {props.name}
+        </Typography>      
+        <Typography align='left' display='inline'>
+          : {props.duration.getMonth() + 1}/{props.duration.getDate() + 1}, {props.duration.getHours()}:{props.duration.getMinutes()} 
+        </Typography>     
+      </div>    
+    )     
+    
+  }
 }
 
 const CurrentGameState = (props) => {
@@ -238,20 +251,18 @@ const Gamelist = (props) => {
                 <Card className={classes.gameCard}>
                   <Grid item container>
                     {props.state.games[game].predictionPeriodCountdown.durationDated !== null ? (
-                      <div>
+                      <React.Fragment>
                         <Grid item container xs={6}>
-                          <Grid item xs={12}>                        
-                              
-                                <CurrentGameState game={props.state.games[game]} />
-                                <FormattedTime
-                                  duration={props.state.games[game].predictionPeriodCountdown.durationDated} 
-                                  name={'start'}  
-                                />          
-                                <FormattedTime
-                                  duration={props.state.games[game].gameEndsCountdown.durationDated} 
-                                  name={'end'}  
-                                /> 
-                                                                                                                         
+                          <Grid item xs={12}>                                                      
+                            <CurrentGameState game={props.state.games[game]} />
+                            <FormattedTime
+                              duration={props.state.games[game].predictionPeriodCountdown.durationDated} 
+                              name={'start'}  
+                            />          
+                            <FormattedTime
+                              duration={props.state.games[game].gameEndsCountdown.durationDated} 
+                              name={'end'}  
+                            />                                                                                                                          
                           </Grid>                                         
                         </Grid>
                         <Grid item xs={6} >     
@@ -269,11 +280,15 @@ const Gamelist = (props) => {
                             </Typography>                         
                           </Grid> 
                         </Grid>   
-                      </div>
+                      </React.Fragment>
                     ) : (
                       <Grid item container xs={12}>
-
-                        <CircularLoading/>
+                        <Grid item xs={12} style={{padding: 5}}>
+                          <Typography align='center'>
+                            loading game please wait!
+                          </Typography>
+                        </Grid>
+                        <CircularProgress style={{margin: 'auto', color: 'green', padding: 5}}/>
                       </Grid>
                     )}                                                           
                   </Grid>                              
@@ -288,9 +303,6 @@ const Gamelist = (props) => {
     return (
       <div>
         <CreateGameDrawer handleCreateGame={handleCreateGame} myAddress={props.state.myAddress}/>        
-        <p>{props.state.myAddress}</p>
-        <p>{props.state.games}</p>
-        <CircularLoading/>
       </div>
 
     )

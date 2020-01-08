@@ -8,7 +8,10 @@ import Graph from '../Graph';
 import { useGraph } from '../../hooks/useGraph';
 import { useGameData } from '../../hooks/useGameData';
 // MATERIAL UI 
-import Typography from '@material-ui/core/Typography'
+import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Grid from '@material-ui/core/Grid';
+
 
 const SelectedProduct = (props) => {
   // REACT ROUTER
@@ -36,7 +39,6 @@ const SelectedProduct = (props) => {
       // key is gameAddress, value is gameState
       if (games !== undefined && games !== null) {
         for (let [key, value] of Object.entries(games)) {
-          console.log('entires')
           let counter = 0;
           let playerPredictions = [];
           // predictions.price.count
@@ -44,7 +46,6 @@ const SelectedProduct = (props) => {
           // for each position
           value.positions.forEach(position => {       
             // get players positions     
-            console.log(position.predictionPrice)
             if (position.player === state.myAddress) {
 
               counter += 1;
@@ -59,7 +60,6 @@ const SelectedProduct = (props) => {
               predictions[position.predictionPrice] = 1;
             }                        
           })
-          console.log(playerPredictions)
           setState(state => ({
             ...state,
             games: {
@@ -85,11 +85,14 @@ const SelectedProduct = (props) => {
       numOfPositions: gamesData.numOfPositions
     }))    
     handlePositions(gamesData.games, gamesData.myAddress)       
-    setState(state => ({
-      ...state,
-      isLoading: false,
-    })) 
-  }, [gamesData])
+    if (gamesData.games !== undefined && graphData !== null) {
+      setState(state => ({
+        ...state,
+        isLoading: false,
+      })) 
+    }
+
+  }, [gamesData.games])
 
 
   if (state.isLoading !== true) {
@@ -116,7 +119,12 @@ const SelectedProduct = (props) => {
     )  
   } else {
     return (
-      <p>loading</p>
+      <Grid container style={{margin: 'auto', width: '100%'}}>
+        <Typography align='center' style={{margin: 'auto'}}>
+          gathering game information, please wait!  
+        </Typography>
+        <CircularProgress style={{margin: 'auto', color: 'green', padding: 5}}/>      
+      </Grid>
     ) 
   }  
 }

@@ -7,13 +7,13 @@ import Navigation from './containers/Navigation';
 import Container from '@material-ui/core/Container';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
-import deepPurple from '@material-ui/core/colors/deepPurple';
+import white from '@material-ui/core/colors/deepPurple';
 import grey from '@material-ui/core/colors/grey';
 
 const theme = createMuiTheme({
   palette: {
-    primary: deepPurple,
-    secondary: grey,
+    primary: white,
+    secondary: grey
   },
 });
 
