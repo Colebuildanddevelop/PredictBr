@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 // MATERIAL UI
 import { makeStyles } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Drawer from '@material-ui/core/Drawer';
@@ -19,7 +21,13 @@ const useStyles = makeStyles(theme => ({
   gameOption: {
     margin: 'auto',
     backgroundColor: '#e8e8e8'
-  },  
+  },
+  snackbar: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },    
   formControl: {    
     width: '95%',
     marginLeft: 10,
@@ -129,3 +137,45 @@ const CreateGameDrawer = (props) => {
 }
 
 export default CreateGameDrawer;
+
+
+
+
+const Alert = (props) => {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+
+const CustomizedSnackbars = () => {
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  return (
+    <div className={classes.snackbar}>
+      <Button variant="outlined" onClick={handleClick}>
+        Open success snackbar
+      </Button>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} color="success">
+          This is a success message!
+        </Alert>
+      </Snackbar>
+      <Alert color="error">This is an error message!</Alert>
+      <Alert color="warning">This is a warning message!</Alert>
+      <Alert color="info">This is an information message!</Alert>
+      <Alert color="success">This is a success message!</Alert>
+    </div>
+  );
+}
