@@ -13,7 +13,7 @@ export const useGameData = (web3, factoryContract, gameAbi) => {
       setState(state => ({
         ...state,
         numOfPositions: 0,
-        myAddress: address[0] 
+        myAddress: '0x836E08dF90245B151C2eEDfCe6fBC1E690130544'
       }))
       console.log(address)
     }

@@ -1,7 +1,11 @@
 import React from 'react';
 import logo from '../logo.png';
+import { useRouteMatch } from 'react-router-dom';
+// COMPONENTS
+import HowToPlayDrawer from './HowToPlayDrawer';
 // MATERIAL-UI
 import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import IconButton from '@material-ui/core/IconButton';
@@ -24,9 +28,14 @@ function HideOnScroll(props) {
 }
 
 const useStyles = makeStyles(theme => ({
-  navBar: {
+  navBarMain: {
     backgroundColor: 'white',
-    color: '#179c26'    
+    color: '#179c26',    
+  },
+  navBarSecondary: {
+    marginTop: 57,
+    backgroundColor: '#5ee07d',
+    color: 'black',
   },
   title: {
     flexGrow: 1,
@@ -39,27 +48,37 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const NavBar = () => {
+const NavBar = (props) => {
   const classes = useStyles();
+
+
   return (
     <React.Fragment >
       <HideOnScroll>
-        <AppBar display="flex" elevation={1} className={classes.navBar}>
+        <AppBar elevation={2} className={classes.navBarMain}>
           <Toolbar >
             <NavLink style={{ textDecoration: 'none', color: 'unset' }} to="/" color="inherit">
               <img src={logo} style={{color: 'white'}}/>
             </NavLink>  
-
             <Typography variant="h6" align="right" className={classes.title}>              
               <NavLink style={{ textDecoration: 'none', color: 'unset' }} to="/" color="inherit">
                 PREDICTBR
               </NavLink>
             </Typography>
-            
           </Toolbar>
+         
         </AppBar>
       </HideOnScroll>
+      {props.buttonValue === 'How to Play' && 
+        <AppBar elevation={1} position='sticky' className={classes.navBarSecondary}>
+          <Toolbar display='inline'>
+            <HowToPlayDrawer/>
+          </Toolbar>
+        </AppBar>    
+      }
+
     </React.Fragment>
+    
   )
 }
 

@@ -11,14 +11,15 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto',
     padding: 10
   },
-  button: {
+  gameButton: {
     width: 250,
     height: 150,
     backgroundColor: '#616161',
-    color: 'white',
+    color: '#5ee07d',
     fontWeight: 'bold',
     fontSize: 15
-  }
+  },
+
 }));
 
 const ProductSelection = () => {
@@ -29,28 +30,28 @@ const ProductSelection = () => {
       <Grid container direction='column'>
         <Grid item className={classes.productSquare}>
           <NavLink style={{ textDecoration: 'none', color: 'unset' }} color="inherit" to='/SPY'>
-            <Button variant='contained' className={classes.button}>
+            <Button variant='contained' className={classes.gameButton}>
               <p>sp 500</p>  
             </Button>
           </NavLink>
         </Grid>
         <Grid item className={classes.productSquare}>
           <NavLink style={{ textDecoration: 'none', color: 'unset' }} color="inherit" to='/GLD'>
-            <Button variant='contained' className={classes.button}>
+            <Button variant='contained' className={classes.gameButton}>
               <p>gold</p>  
             </Button>
           </NavLink>            
         </Grid>
         <Grid item className={classes.productSquare}>
           <NavLink style={{ textDecoration: 'none', color: 'unset' }} color="inherit" to='/USO'>
-            <Button variant='contained' className={classes.button}>
+            <Button variant='contained' className={classes.gameButton}>
               <p>USO</p>  
             </Button>
           </NavLink>
         </Grid>
         <Grid item className={classes.productSquare}>            
           <NavLink style={{ textDecoration: 'none', color: 'unset' }} color="inherit" to='/ETH'>
-            <Button variant='contained' className={classes.button}>
+            <Button variant='contained' className={classes.gameButton}>
               <p>ethereum</p> 
             </Button>           
           </NavLink>  

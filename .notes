@@ -109,12 +109,15 @@ PLANNING
     
 
 
-
+  - create a minheight for when loading to prevent the footer from sliding all the way up
   - dont allow predict same twice?
   - confirmations on actions
     - loading animations
   - reload on game created>...? 
   - notes for the code to show function params etc 
+  - make a tutorial
+  - make notifications for actions
+    - 
 
 
 

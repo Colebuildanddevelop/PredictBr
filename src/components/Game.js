@@ -14,11 +14,10 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
-
-
-
 // COMPONENTS
 import CustomSlider from './CustomSlider';
+import FormattedTime from './FormattedTime';
+import CurrentGameState from './CurrentGameState';
 
 
 const useStyles = makeStyles(theme => ({
@@ -40,6 +39,9 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     backgroundColor: '#5ee07d',
     color: 'white'    
+  },
+  nested: {
+    width: '100%'
   }
 }));
 
@@ -56,8 +58,13 @@ const Game = (props) => {
     allPredictions: false,
   });
 
+  useEffect(() => {
+    if (props.gameState !== undefined) {
+      console.log(props.gameState.countedPredictions)
+    }
+  }, [props])
+
   const handleOpenList = (listName) => {
-    console.log(open)
     setOpen(open => ({
       ...open,
       [listName]: !open[listName]
@@ -127,7 +134,34 @@ const Game = (props) => {
   
   return (
     <div>    
-      <Grid container style={{marginTop: 20}}>        
+      <Grid container>    
+        {(props.gameState !== undefined && props.gameState.predictionPeriodCountdown.durationDated !== null) &&         
+          <Grid container item xs={12} style={{marginBottom: 20}}>
+            <Grid item container xs={6}>
+              <Grid item xs={12}>                                                      
+                <CurrentGameState game={props.gameState} />
+                <FormattedTime
+                  duration={props.gameState.predictionPeriodCountdown.durationDated} 
+                  name={'start'}  
+                />          
+                <FormattedTime
+                  duration={props.gameState.gameEndsCountdown.durationDated} 
+                  name={'end'}  
+                />                                                                                                                          
+              </Grid>                                         
+            </Grid>
+            <Grid item xs={6} >     
+              <Grid item xs={12}>        
+                <Typography align='right'>
+                  <div style={{fontWeight: 'bold', display: 'inline'}}>stake: </div>{props.gameState.predictionCost / (10**18)} ETH
+                </Typography>                                                        
+                <Typography align='right'>
+                  <div style={{fontWeight: 'bold', display: 'inline'}}>prize pool: </div>{props.gameState.totalPredictionPool / (10**18)} ETH
+                </Typography>                         
+              </Grid> 
+            </Grid>   
+          </Grid>     
+        }                
         <Grid item container>
           <List
             className={classes.list}
@@ -145,25 +179,25 @@ const Game = (props) => {
               {open ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
             <Collapse in={open.myPositions} timeout="auto" unmountOnExit className={classes.myPositions}>
-              <List component="div" disablePadding>
-                <ListItem button className={classes.nested}>
-                  {(props.gameState !== undefined && props.gameState.myPositions.num > 0) ? (
-                    props.gameState.myPositions.predictions.map(prediction => {
-                      return (
+              <List component="div" disablePadding>                
+                {(props.gameState !== undefined && props.gameState.myPositions.num > 0) ? (
+                  props.gameState.myPositions.predictions.map(prediction => {
+                    return (
+                      <ListItem button className={classes.nested}>
                         <ListItemText primary={prediction} />
-                      )
-                    })   
-                  ) : (                    
-                    <ListItemText
-                      primaryTypographyProps={{
-                        style: {
-                          fontWeight: 'lighter'
-                        }
-                      }}
-                      primary="player has made no predictions" 
-                    />                    
-                  )}                                                   
-                </ListItem>
+                      </ListItem>
+                    )
+                  })   
+                ) : (                    
+                  <ListItemText
+                    primaryTypographyProps={{
+                      style: {
+                        fontWeight: 'lighter'
+                      }
+                    }}
+                    primary="player has made no predictions" 
+                  />                    
+                )}                                                                   
               </List>
             </Collapse>
           </List>          
@@ -177,18 +211,18 @@ const Game = (props) => {
                     fontWeight: 'bold'
                   }
                 }}
-                primary="All Predictions"
-                
+                primary="All Predictions"                
               />
               {open ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
             <Collapse in={open.allPredictions} timeout="auto" unmountOnExit className={classes.myPositions}>
               <List component="div" disablePadding>
-                <ListItem button className={classes.nested}>  
-                  {(props.gameState !== undefined && props.gameState.countedPredictions > 0) ? (
-                    Object.keys(props.gameState.countedPredictions).map(prediction => {
-                      return (     
-                        <Grid item container xs={12}>
+                
+                {(props.gameState !== undefined && Object.entries(props.gameState.countedPredictions).length !== 0 && props.gameState.countedPredictions.constructor === Object) ? (
+                  Object.keys(props.gameState.countedPredictions).map(prediction => {
+                    return (   
+                      <ListItem button className={classes.nested}>    
+                        <Grid item container xs={12} style={{width: '100%'}}>
                           <Grid item xs={6}>                  
                             <Typography align='left'>
                               {prediction}
@@ -199,27 +233,24 @@ const Game = (props) => {
                               {props.gameState.countedPredictions[prediction]}
                             </Typography>                       
                           </Grid> 
-                        </Grid>                                    
-                      )
-                    })) : (
-                      <ListItemText
-                        primaryTypographyProps={{
-                          style: {
-                            fontWeight: 'lighter'
-                          }
-                        }}
-                        primary="no predictions have been made" 
-                      />                         
-                    )}                                                 
-                </ListItem>
+                        </Grid>  
+                      </ListItem>                                  
+                    )
+                  })) : (
+                    <ListItemText
+                      primaryTypographyProps={{
+                        style: {
+                          fontWeight: 'lighter'
+                        }
+                      }}
+                      primary="no predictions have been made" 
+                    />                         
+                  )}                                                 
+                
               </List>
             </Collapse>
-          </List>                 
-                           
-
-                                     
-        </Grid>
-        
+          </List>                                                                                 
+        </Grid>        
         <Grid item container xs={12} style={{marginTop: 20}}>
           <Grid item xs={12} className={classes.controlPanel}>
             <CustomSlider 

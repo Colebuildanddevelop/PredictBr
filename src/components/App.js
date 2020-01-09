@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { store } from '../redux/createStore';
 import Navigation from './containers/Navigation';
+
 // MATERIAL UI 
 import Container from '@material-ui/core/Container';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -19,6 +20,7 @@ const theme = createMuiTheme({
 
 
 const App = () => {
+
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>       

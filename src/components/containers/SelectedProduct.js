@@ -35,7 +35,7 @@ const SelectedProduct = (props) => {
   const factoryContract = new web3.eth.Contract(props.contractData.factoryAbi, props.contractData.factoryAddress);  
   let gamesData = useGameData(web3, factoryContract, props.contractData.gameAbi)
   useEffect(() => {
-    const handlePositions = (games, myAddress) => {
+    const handlePositions = async (games, myAddress) => {
       // key is gameAddress, value is gameState
       if (games !== undefined && games !== null) {
         for (let [key, value] of Object.entries(games)) {
@@ -47,10 +47,8 @@ const SelectedProduct = (props) => {
           value.positions.forEach(position => {       
             // get players positions     
             if (position.player === state.myAddress) {
-
               counter += 1;
               playerPredictions.push(position.predictionPrice)
-              console.log(counter)              
             }
             // if prediction has been counted add to the count 
             let predictionKeys = Object.keys(predictions)
@@ -98,9 +96,12 @@ const SelectedProduct = (props) => {
   if (state.isLoading !== true) {
     return (
       <div>
+       
         <Typography align='center' variant='h5' style={{fontWeight: 'bold'}}>
           {props.productName}
-        </Typography>
+        </Typography>            
+      
+
         <Graph productData={state.productData} />  
         <Switch>
           <Route exact path={path}>

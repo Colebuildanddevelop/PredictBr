@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { Route, Switch } from 'react-router-dom';
+// ROUTER
+import { useRouteMatch } from 'react-router-dom';
 // DATA
 import { ContractData } from '../../ContractData';
 // COMPONENTS
@@ -17,18 +19,23 @@ import Container from '@material-ui/core/Container';
 const useStyles = makeStyles(theme => ({
   mainContainer: {
     backgroundColor: theme.palette.primary,
-    marginTop: 60
+    marginTop: 10
   }
 }));
 
-const Navigation = () => {
+const Navigation = (props) => {
   const classes = useStyles();
+  let {url} = useRouteMatch();
+
   return (
     <React.Fragment>
-      <NavBar/>
+     
+      <NavBar buttonValue={'How to Play'}/>
+   
       <Container style={{height: '100vh'}} className={classes.mainContainer}>        
+
         <Switch>  
-          <Route exact path="/">
+          <Route exact path="/">            
             <ProductSelection />
           </Route>        
           <Route path="/USO">
