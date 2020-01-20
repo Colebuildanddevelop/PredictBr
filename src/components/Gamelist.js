@@ -15,9 +15,6 @@ const useStyles = makeStyles(theme => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },  
-  fullList: {
-    width: 'auto',
-  },  
   gameCardContainer: {
     margin: 'auto',
     marginBottom: 20,
@@ -68,7 +65,7 @@ const Gamelist = (props) => {
   // if statement wouldnt be necc if HOC didnt pass props until loaded
   if (props.state.games !== undefined && props.state.games !== null) {
     return (
-      <div>
+      <React.Fragment>
         <CreateGameDrawer handleCreateGame={handleCreateGame} myAddress={props.state.myAddress}/>        
         <Grid container direction='column' style={{marginTop: 20}}>
           {Object.keys(props.state.games).map((game, key) => (
@@ -123,13 +120,13 @@ const Gamelist = (props) => {
             </Grid>
           ))}   
         </Grid>     
-      </div>  
+      </React.Fragment>  
     )
   } else {
     return (
-      <div>
+      <React.Fragment>
         <CreateGameDrawer handleCreateGame={handleCreateGame} myAddress={props.state.myAddress}/>        
-      </div>
+      </React.Fragment>
 
     )
   }

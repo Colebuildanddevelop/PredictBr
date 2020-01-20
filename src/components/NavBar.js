@@ -65,17 +65,10 @@ const NavBar = (props) => {
                 PREDICTBR
               </NavLink>
             </Typography>
-          </Toolbar>
-         
+          </Toolbar>         
         </AppBar>
       </HideOnScroll>
-      {props.buttonValue === 'How to Play' && 
-        <AppBar elevation={1} position='sticky' className={classes.navBarSecondary}>
-          <Toolbar display='inline'>
-            <HowToPlayDrawer/>
-          </Toolbar>
-        </AppBar>    
-      }
+
 
     </React.Fragment>
     

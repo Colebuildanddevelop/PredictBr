@@ -16,7 +16,7 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles(theme => ({
   createGameButton: {
     background: 'linear-gradient(45deg, #5ee07d 30%, #51ccf5 90%)',
-    color: 'white'
+    color: 'white',
   },
   gameOption: {
     margin: 'auto',
@@ -61,7 +61,7 @@ const CreateGameDrawer = (props) => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <Button className={classes.createGameButton} fullWidth={true} variant='contained' onClick={toggleDrawer(true)}>Create Game</Button>
       <Drawer anchor="bottom" open={state.drawerOpen} onClose={toggleDrawer(false)}>
         <Grid container direction='column' className={classes.gameOption}>
@@ -132,7 +132,7 @@ const CreateGameDrawer = (props) => {
           </Grid>          
         </Grid>        
       </Drawer>
-    </div>
+    </React.Fragment>
   );
 }
 

@@ -5,21 +5,30 @@ import { useRouteMatch } from 'react-router-dom';
 // DATA
 import { ContractData } from '../../ContractData';
 // COMPONENTS
+import Home from '../Home';
 import ProductSelection from '../ProductSelection';
 import SelectedProduct from './SelectedProduct';
 import NavBar from '../NavBar';
 import Footer from '../Footer';
 // MATERIAL UI
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createPalette } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 
 
 
 const useStyles = makeStyles(theme => ({
+  appContainer: {
+    display: 'block',
+    backgroundColor: theme.palette.primary.main,
+    margin: 0
+  },
   mainContainer: {
-    backgroundColor: theme.palette.primary,
-    marginTop: 10
+    backgroundColor: theme.palette.primary.main,
+    minHeight: '100vh',
+    minWidth: '100%',
+    marginTop: 55
+    
   }
 }));
 
@@ -28,14 +37,16 @@ const Navigation = (props) => {
   let {url} = useRouteMatch();
 
   return (
-    <React.Fragment>
+    <React.Fragment className={classes.appContainer}>
      
       <NavBar buttonValue={'How to Play'}/>
    
-      <Container style={{height: '100vh'}} className={classes.mainContainer}>        
-
+      <Container className={classes.mainContainer}>               
         <Switch>  
           <Route exact path="/">            
+            <Home />
+          </Route> 
+          <Route exact path="/ProductSelection">            
             <ProductSelection />
           </Route>        
           <Route path="/USO">
@@ -63,8 +74,9 @@ const Navigation = (props) => {
             />
           </Route>
         </Switch>
-        <Footer/>        
       </Container>
+      <Footer/>        
+
     </React.Fragment>
   );
 };

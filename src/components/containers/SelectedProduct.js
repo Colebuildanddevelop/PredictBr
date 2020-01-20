@@ -8,12 +8,32 @@ import Graph from '../Graph';
 import { useGraph } from '../../hooks/useGraph';
 import { useGameData } from '../../hooks/useGameData';
 // MATERIAL UI 
+import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 
+const useStyles = makeStyles(theme => ({
+  graphContainer: {
+    height: '100%',
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      height: 800,
+      width: 800,
+      margin: 'auto'
+    }
+  },
+  gamelistContainer: {
+    margin: 'auto',
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '50%'
+    }
+  }
+}));
 
 const SelectedProduct = (props) => {
+  const classes = useStyles()
   // REACT ROUTER
   let { path } = useRouteMatch();  
   // get the game list for the associated product    
@@ -89,34 +109,36 @@ const SelectedProduct = (props) => {
         isLoading: false,
       })) 
     }
-
   }, [gamesData.games])
 
 
   if (state.isLoading !== true) {
     return (
-      <div>
-       
+      <React.Fragment>       
         <Typography align='center' variant='h5' style={{fontWeight: 'bold'}}>
           {props.productName}
-        </Typography>            
-      
-
-        <Graph productData={state.productData} />  
-        <Switch>
-          <Route exact path={path}>
-            <Gamelist factoryContract={factoryContract} state={state} />              
-          </Route>
-          <Route 
-            exact path={`${path}/game_:id`}
-            render={({match}) => <Game
-              gameState={state.games[match.params.id]} 
-              myAddress={state.myAddress} 
-              lastPrice={state.productData[0].close}
-            />}
-          />
-        </Switch>
-      </div>
+        </Typography>
+        <Grid container>
+          <Grid item className={classes.graphContainer} >
+            <Graph productData={state.productData} />  
+          </Grid>
+          <Grid item className={classes.gamelistContainer}>         
+            <Switch>
+              <Route exact path={path}>
+                <Gamelist factoryContract={factoryContract} state={state} />              
+              </Route>
+              <Route 
+                exact path={`${path}/game_:id`}
+                render={({match}) => <Game
+                  gameState={state.games[match.params.id]} 
+                  myAddress={state.myAddress} 
+                  lastPrice={state.productData[0].close}
+                />}
+              />
+            </Switch>          
+          </Grid>   
+        </Grid>
+      </React.Fragment>
     )  
   } else {
     return (

@@ -8,13 +8,18 @@ import Navigation from './containers/Navigation';
 import Container from '@material-ui/core/Container';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
-import white from '@material-ui/core/colors/deepPurple';
 import grey from '@material-ui/core/colors/grey';
+import green from '@material-ui/core/colors/green';
 
 const theme = createMuiTheme({
   palette: {
-    primary: white,
-    secondary: grey
+    primary: {
+      main: grey[900],
+      light: grey[50]
+    },
+    secondary: {
+      main: green['A400']
+    }
   },
 });
 
