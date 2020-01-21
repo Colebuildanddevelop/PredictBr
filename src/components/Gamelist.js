@@ -22,7 +22,6 @@ const useStyles = makeStyles(theme => ({
     minWidth: '100%',
   },
   gameCard: {
-    height: 80,
     padding: 10,
     display: 'block',
     backgroundColor: '#424242',

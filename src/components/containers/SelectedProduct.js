@@ -12,13 +12,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
+import Zoom from '@material-ui/core/Zoom';
+// WEB3
+import web3 from '../../web3';
 
 const useStyles = makeStyles(theme => ({
   graphContainer: {
     height: '100%',
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      height: 800,
       width: 800,
       margin: 'auto'
     }
@@ -26,35 +28,42 @@ const useStyles = makeStyles(theme => ({
   gamelistContainer: {
     margin: 'auto',
     width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '50%'
+    [theme.breakpoints.up('md')]: {
+      width: '70%'
     }
+  },
+  productName: {
+    fontWeight: 'bold',
+    color: 'white', 
   }
 }));
 
 const SelectedProduct = (props) => {
+
   const classes = useStyles()
   // REACT ROUTER
   let { path } = useRouteMatch();  
   // get the game list for the associated product    
-  const { web3 } = props;  
+
   const [state, setState] = useState({
     isLoading: true,
     games: null,
   })
+
   // get graph data using hook
   let graphData = useGraph(props.contractData)  
   useEffect(() => {
     setState( state => ({
       ...state,
-      productData: graphData
+      productData: graphData,
     }))
   }, [graphData])
-  
+
   // games data hook
   const factoryContract = new web3.eth.Contract(props.contractData.factoryAbi, props.contractData.factoryAddress);  
   let gamesData = useGameData(web3, factoryContract, props.contractData.gameAbi)
   useEffect(() => {
+
     const handlePositions = async (games, myAddress) => {
       // key is gameAddress, value is gameState
       if (games !== undefined && games !== null) {
@@ -91,8 +100,7 @@ const SelectedProduct = (props) => {
                 }
               }
             }
-          }))
-          
+          }))          
         }
       }      
     }         
@@ -111,39 +119,40 @@ const SelectedProduct = (props) => {
     }
   }, [gamesData.games])
 
-
   if (state.isLoading !== true) {
     return (
-      <React.Fragment>       
-        <Typography align='center' variant='h5' style={{fontWeight: 'bold', color: 'white'}}>
-          {props.productName}
-        </Typography>
-        <Grid container>
-          <Grid item className={classes.graphContainer} >
-            <Graph productData={state.productData} />  
-          </Grid>
-          <Grid item className={classes.gamelistContainer}>         
-            <Switch>
-              <Route exact path={path}>
-                <Gamelist factoryContract={factoryContract} state={state} />              
-              </Route>
-              <Route 
-                exact path={`${path}/game_:id`}
-                render={({match}) => <Game
-                  gameState={state.games[match.params.id]} 
-                  myAddress={state.myAddress} 
-                  lastPrice={state.productData[0].close}
-                />}
-              />
-            </Switch>          
-          </Grid>   
-        </Grid>
-      </React.Fragment>
+        <React.Fragment>
+          <Typography align='center' variant='h4' className={classes.productName} >
+            {props.productName}
+          </Typography>
+          <Zoom timeout={750} in={true}>
+            <Grid container>
+              <Grid item className={classes.graphContainer} >
+                <Graph productData={state.productData} />  
+              </Grid>
+              <Grid item className={classes.gamelistContainer}>         
+                <Switch>
+                  <Route exact path={path}>
+                    <Gamelist factoryContract={factoryContract} state={state} />              
+                  </Route>
+                  <Route 
+                    exact path={`${path}/game_:id`}
+                    render={({match}) => <Game
+                      gameState={state.games[match.params.id]} 
+                      myAddress={state.myAddress} 
+                      lastPrice={state.productData[0].close}
+                    />}
+                  />
+                </Switch>          
+              </Grid>   
+            </Grid>  
+          </Zoom>            
+        </React.Fragment>
     )  
   } else {
     return (
-      <Grid container style={{margin: 'auto', width: '100%'}}>
-        <Typography align='center' style={{margin: 'auto', color: 'white'}}>
+      <Grid container style={{marginTop: 'auto', width: '100%'}}>
+        <Typography align='center' style={{margin: 'auto', color: 'white', width: '100%'}}>
           gathering game information, please wait!  
         </Typography>
         <CircularProgress style={{margin: 'auto', color: 'green', padding: 5}}/>      
@@ -152,4 +161,4 @@ const SelectedProduct = (props) => {
   }  
 }
 
-export default withWeb3(SelectedProduct);
+export default (SelectedProduct);

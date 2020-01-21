@@ -19,7 +19,6 @@ import CustomSlider from './CustomSlider';
 import FormattedTime from './FormattedTime';
 import CurrentGameState from './CurrentGameState';
 
-
 const useStyles = makeStyles(theme => ({
   predictions: {
     width: '100%'
@@ -29,7 +28,9 @@ const useStyles = makeStyles(theme => ({
   },
   list: {
     width: '100%',
-    padding: 0
+    padding: 0,
+    color: 'white',
+    borderBottom: '1px solid grey'
   },
   myPositions: {
     maxHeight: 250,
@@ -166,7 +167,7 @@ const Game = (props) => {
           <List
             className={classes.list}
           >
-            <ListItem divider button onClick={() => handleOpenList('myPositions')} className={classes.list}>
+            <ListItem button onClick={() => handleOpenList('myPositions')} className={classes.list}>
               <ListItemText 
                 primaryTypographyProps={{
                   style: {
@@ -174,8 +175,7 @@ const Game = (props) => {
                     color: 'white'
                   }
                 }}
-                primary="My Positions"
-                
+                primary="My Positions"                
               />
               {open ? <ExpandLess style={{color: 'white'}}/> : <ExpandMore style={{color: 'white'}}/>}
             </ListItem>
@@ -206,7 +206,7 @@ const Game = (props) => {
           <List
             className={classes.list}
           >
-            <ListItem divider button onClick={() => handleOpenList('allPredictions')} className={classes.list}>
+            <ListItem button onClick={() => handleOpenList('allPredictions')} className={classes.list}>
               <ListItemText 
                 primaryTypographyProps={{
                   style: {

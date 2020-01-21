@@ -12,12 +12,10 @@ export const useGameData = (web3, factoryContract, gameAbi) => {
       const address = await web3.eth.getAccounts();
       setState(state => ({
         ...state,
-        numOfPositions: 0,
-        myAddress: '0x836E08dF90245B151C2eEDfCe6fBC1E690130544'
+        myAddress: address[0]
       }))
       console.log(address)
     }
-    
     const getGameData = async(gameContract, contractAddress) => {
       // CONSTANTS
       const predictionCost = await gameContract.methods.cost_to_predict().call()
@@ -218,6 +216,7 @@ export const useGameData = (web3, factoryContract, gameAbi) => {
         .then(() => {
           loadData();
         })
+
       setState(state => ({
         ...state,
         isLoading: false,
@@ -240,7 +239,25 @@ export const useGameData = (web3, factoryContract, gameAbi) => {
       let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      let timeLeft = days + "d " + hours + "h " + minutes + "m " + seconds + "s "; 
+      // format time
+      let timeLeft;
+      if (days === 0) {
+        if (hours === 0) {
+          if (minutes == 0) {
+            timeLeft = seconds + "s " 
+          } else {
+            timeLeft = minutes + "m " + seconds + "s "; 
+          }
+        } else {
+          timeLeft = hours + "h " + minutes + "m " + seconds + "s "; 
+        }    
+      } else {
+        timeLeft = days + "d " + hours + "h " + minutes + "m " + seconds + "s "; 
+      }
+
+    
+      
+       
       setState(state => ({
         ...state,
         games: {
@@ -275,7 +292,7 @@ export const useGameData = (web3, factoryContract, gameAbi) => {
           }
         }))        
       }
-    }, 10000);      
+    }, 1000);      
   }
 
 

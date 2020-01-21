@@ -66,8 +66,6 @@ const NavBar = (props) => {
           </Toolbar>         
         </AppBar>
       </HideOnScroll>
-
-
     </React.Fragment>
     
   )

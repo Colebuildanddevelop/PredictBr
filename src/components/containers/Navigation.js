@@ -25,6 +25,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main,
     minHeight: '100vh',
     marginTop: 80,
+    [theme.breakpoints.up('sm')]: {
+      marginTop: 120
+    }
     
   }
 }));

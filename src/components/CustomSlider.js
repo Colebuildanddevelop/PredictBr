@@ -6,7 +6,7 @@ const sliderShadow = '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0
 // taken from material ui documentation
 const CustomSlider = withStyles({
   root: {
-    color: '#179c26',
+    color: '#00e676',
     height: 2,
     padding: '15px 0',
   },
@@ -31,7 +31,7 @@ const CustomSlider = withStyles({
     top: -22,
     '& *': {
       background: 'transparent',
-      color: '#000',
+      color: 'white',
     },
   },
   track: {

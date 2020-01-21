@@ -16,7 +16,7 @@ function Copyright() {
     <Typography variant="body2" style={{color: '#212121'}} align="center">
       {'Copyright © '}
       <NavLink style={{ textDecoration: 'none', color: '#212121' }} to="/cart">
-        Stupid Shirts
+        PredictBr
       </NavLink>{' '}
       {new Date().getFullYear()}
       {'.'}

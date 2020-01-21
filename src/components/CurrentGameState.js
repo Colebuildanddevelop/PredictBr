@@ -1,7 +1,6 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
-
 const CurrentGameState = (props) => {
   if (props.game.predictionPeriodCountdown.isOver === true) {
     if (props.game.gameEndsCountdown.isOver === true) {  
@@ -24,8 +23,8 @@ const CurrentGameState = (props) => {
     )}
   } else {
     return (          
-    <Typography align='left' style={{fontWeight: 'bold', color: 'green'}}>
-      prediction period {props.game.predictionPeriodCountdown.timeLeft}
+    <Typography align='left' style={{fontWeight: 'bold', color: '#00e676'}}>
+      Game starts: {props.game.predictionPeriodCountdown.timeLeft}
     </Typography>        
   )}
 }
