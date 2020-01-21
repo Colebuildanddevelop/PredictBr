@@ -1,4 +1,6 @@
 import React from 'react';
+// COMPONENTS
+import HowToPlayDrawer from './HowToPlayDrawer';
 // React Router
 import { NavLink } from 'react-router-dom';
 // MATERIAL-UI
@@ -13,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     backgroundColor: theme.palette.secondary.main,
-    color: theme.palette.primary.light
+    color: theme.palette.primary.main
   },
   buttonContainer: {
     width: '100%',
@@ -45,14 +47,9 @@ const Home = () => {
           </NavLink>
         </Grid>
         <Grid item className={classes.buttonContainer} >
-          <NavLink style={{ textDecoration: 'none', color: 'unset' }} color="inherit" to='/ProductSelection'>
-            <Button variant='contained' className={classes.button} style={{width: '100%'}}>
-              learn more 
-            </Button>
-          </NavLink>
+          <HowToPlayDrawer/>
         </Grid>   
-      </Grid>
-   
+      </Grid>      
     </Grid>
 
   )

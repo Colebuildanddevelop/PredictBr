@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   gameControlButton: {
     width: '100%',
     backgroundColor: '#5ee07d',
-    color: 'white'    
+    color: theme.palette.primary.main    
   },
   nested: {
     width: '100%'
@@ -152,10 +152,10 @@ const Game = (props) => {
             </Grid>
             <Grid item xs={6} >     
               <Grid item xs={12}>        
-                <Typography align='right'>
+                <Typography align='right' style={{color: 'white'}}>
                   <div style={{fontWeight: 'bold', display: 'inline'}}>stake: </div>{props.gameState.predictionCost / (10**18)} ETH
                 </Typography>                                                        
-                <Typography align='right'>
+                <Typography align='right' style={{color: 'white'}}>
                   <div style={{fontWeight: 'bold', display: 'inline'}}>prize pool: </div>{props.gameState.totalPredictionPool / (10**18)} ETH
                 </Typography>                         
               </Grid> 
@@ -170,13 +170,14 @@ const Game = (props) => {
               <ListItemText 
                 primaryTypographyProps={{
                   style: {
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    color: 'white'
                   }
                 }}
                 primary="My Positions"
                 
               />
-              {open ? <ExpandLess /> : <ExpandMore />}
+              {open ? <ExpandLess style={{color: 'white'}}/> : <ExpandMore style={{color: 'white'}}/>}
             </ListItem>
             <Collapse in={open.myPositions} timeout="auto" unmountOnExit className={classes.myPositions}>
               <List component="div" disablePadding>                
@@ -192,7 +193,8 @@ const Game = (props) => {
                   <ListItemText
                     primaryTypographyProps={{
                       style: {
-                        fontWeight: 'lighter'
+                        fontWeight: 'lighter',
+                        color: 'white'
                       }
                     }}
                     primary="player has made no predictions" 
@@ -208,12 +210,13 @@ const Game = (props) => {
               <ListItemText 
                 primaryTypographyProps={{
                   style: {
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    color: 'white'
                   }
                 }}
                 primary="All Predictions"                
               />
-              {open ? <ExpandLess /> : <ExpandMore />}
+              {open ? <ExpandLess style={{color: 'white'}} /> : <ExpandMore style={{color: 'white'}} />}
             </ListItem>
             <Collapse in={open.allPredictions} timeout="auto" unmountOnExit className={classes.myPositions}>
               <List component="div" disablePadding>
@@ -224,12 +227,12 @@ const Game = (props) => {
                       <ListItem button className={classes.nested}>    
                         <Grid item container xs={12} style={{width: '100%'}}>
                           <Grid item xs={6}>                  
-                            <Typography align='left'>
+                            <Typography align='left' style={{color: 'white'}}>
                               {prediction}
                             </Typography>                                
                           </Grid>   
                           <Grid item xs={6}>                  
-                            <Typography align='right' >
+                            <Typography align='right' style={{color: 'white'}} >
                               {props.gameState.countedPredictions[prediction]}
                             </Typography>                       
                           </Grid> 
@@ -240,7 +243,8 @@ const Game = (props) => {
                     <ListItemText
                       primaryTypographyProps={{
                         style: {
-                          fontWeight: 'lighter'
+                          fontWeight: 'lighter',
+                          color: 'white'
                         }
                       }}
                       primary="no predictions have been made" 

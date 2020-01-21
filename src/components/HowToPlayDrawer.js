@@ -14,7 +14,8 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles(theme => ({
   howToPlayButton: {
     width: '100%',
-    backgroundColor: 'lightGray'
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.primary.main
   },
   gameOption: {
     margin: 'auto',

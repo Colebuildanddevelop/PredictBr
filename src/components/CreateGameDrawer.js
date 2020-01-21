@@ -15,8 +15,8 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
   createGameButton: {
-    background: 'linear-gradient(45deg, #5ee07d 30%, #51ccf5 90%)',
-    color: 'white',
+    background: 'linear-gradient(45deg, #00e676 30%, #51ccf5 90%)',
+    color: theme.palette.primary.main,
   },
   gameOption: {
     margin: 'auto',

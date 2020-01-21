@@ -1,8 +1,6 @@
 import React from 'react';
 import logo from '../logo.png';
 import { useRouteMatch } from 'react-router-dom';
-// COMPONENTS
-import HowToPlayDrawer from './HowToPlayDrawer';
 // MATERIAL-UI
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -29,8 +27,8 @@ function HideOnScroll(props) {
 
 const useStyles = makeStyles(theme => ({
   navBarMain: {
-    backgroundColor: 'white',
-    color: '#179c26',    
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.primary.main,    
   },
   navBarSecondary: {
     marginTop: 57,

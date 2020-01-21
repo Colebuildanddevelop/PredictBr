@@ -11,6 +11,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import grey from '@material-ui/core/colors/grey';
 import green from '@material-ui/core/colors/green';
 
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -18,7 +19,8 @@ const theme = createMuiTheme({
       light: grey[50]
     },
     secondary: {
-      main: green['A400']
+      main: green['A400'],
+      light: green['A700']
     }
   },
 });

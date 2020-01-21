@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { VictoryCandlestick, VictoryZoomContainer, VictoryChart, VictoryAxis, VictoryTheme, VictoryTooltip, createContainer, VictoryCursorContainer } from 'victory';
+import { VictoryCandlestick, VictoryLabel, Line, VictoryZoomContainer, VictoryChart, VictoryAxis, VictoryTheme, VictoryTooltip, createContainer, VictoryCursorContainer } from 'victory';
 
 const Graph = (props) => {
 
@@ -8,19 +8,72 @@ const Graph = (props) => {
       <VictoryChart
         containerComponent={
           <VictoryCursorContainer
-            cursorLabel={({ datum }) => `${datum.x.getMonth()}/${datum.x.getDay()}, ${Math.round(datum.y, 2)}`}
+            style={{
+              cursorlabel: {
+                stroke: 'white'
+              }
+            }}
+            cursorComponent={<Line style={{ stroke: "white" }}/>}
+            cursorLabelComponent={<VictoryLabel style={{ fill: 'white'}}/>}
+            cursorLabel={({ datum }) => `${datum.x.getMonth()+1}/${datum.x.getDay()}, ${Math.round(datum.y, 2)}`}
           />
         }
         theme={VictoryTheme.material}
         domainPadding={{ x: 10 }}
         scale={{ x: "time" }}
       >
-        <VictoryAxis tickCount={2} style={{tickLabels: {fontSize: 15, padding: 0}}} tickFormat={(t) => `${t.getMonth()+1}/${t.getDate()}`}/>
-        <VictoryAxis dependentAxis tickCount={5} style={{tickLabels: {fontSize: 15, padding: 0}}}/>  
+        <VictoryAxis
+          tickCount={2} 
+          style={{
+            tickLabels: {fontSize: 15, padding: 0},
+            axis: {
+              stroke: 'white'
+            },
+            grid: {
+              stroke: 'grey'
+            },
+            tickLabels: {
+              fill: '#f9fbe7'
+            },
+            ticks: {
+              fill: 'white'
+            }      
+          }} 
+          tickFormat={(t) => `${t.getMonth()+1}/${t.getDate()}`}
+        />
+        <VictoryAxis            
+          dependentAxis 
+          tickCount={5} 
+          style={{
+            axis: {
+              stroke: 'white'
+            },
+            grid: {
+              stroke: 'grey'
+            },
+            tickLabels: {
+              fill: '#f9fbe7'
+            },
+            ticks: {
+              fill: 'white'
+            } 
+          }}
+        />  
         <VictoryCandlestick
-          candleColors={{ positive: "#5f5c5b", negative: "#c43a31" }}
           data={props.productData}        
-          style={{labels: {fontSize: 5}}}      
+          style={{
+            labels: {
+              fontSize: 5,
+              color: 'white'
+            },
+            data: {
+              stroke: 'white'
+            }
+          }}   
+          candleColors={{
+            positive: '#00e676',
+            negative: 'red'
+          }}
           labelComponent={
             <VictoryTooltip
               flyoutWidth={60}

@@ -115,7 +115,7 @@ const SelectedProduct = (props) => {
   if (state.isLoading !== true) {
     return (
       <React.Fragment>       
-        <Typography align='center' variant='h5' style={{fontWeight: 'bold'}}>
+        <Typography align='center' variant='h5' style={{fontWeight: 'bold', color: 'white'}}>
           {props.productName}
         </Typography>
         <Grid container>
@@ -143,7 +143,7 @@ const SelectedProduct = (props) => {
   } else {
     return (
       <Grid container style={{margin: 'auto', width: '100%'}}>
-        <Typography align='center' style={{margin: 'auto'}}>
+        <Typography align='center' style={{margin: 'auto', color: 'white'}}>
           gathering game information, please wait!  
         </Typography>
         <CircularProgress style={{margin: 'auto', color: 'green', padding: 5}}/>      

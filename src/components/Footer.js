@@ -13,9 +13,9 @@ import { NavLink } from 'react-router-dom';
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant="body2" style={{color: '#212121'}} align="center">
       {'Copyright © '}
-      <NavLink style={{ textDecoration: 'none', color: 'unset' }} to="/cart">
+      <NavLink style={{ textDecoration: 'none', color: '#212121' }} to="/cart">
         Stupid Shirts
       </NavLink>{' '}
       {new Date().getFullYear()}
@@ -27,8 +27,9 @@ function Copyright() {
 const useStyles = makeStyles(theme => ({
   footer: {
     padding: theme.spacing(4),
-    maxWidth: 500,
-    margin: 'auto',
+    maxWidth: '100%',
+    marginTop: 20,
+    backgroundColor: theme.palette.secondary.main
   },
   icon: {
     width: '100%',
@@ -53,8 +54,7 @@ const Footer = () => {
             <FacebookIcon className={classes.icon}/>
           </Grid>
         </Grid>
-
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+        <Typography variant="subtitle1" align="center" style={{color: '#212121'}} component="p">
           Follow us on Social Media!
         </Typography>
         <Copyright />

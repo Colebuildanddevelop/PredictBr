@@ -25,7 +25,8 @@ const useStyles = makeStyles(theme => ({
     height: 80,
     padding: 10,
     display: 'block',
-    backgroundColor: '#e8e8e8'
+    backgroundColor: '#424242',
+    color: theme.palette.primary.light
   },
 }));
 

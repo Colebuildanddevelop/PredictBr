@@ -19,15 +19,12 @@ import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles(theme => ({
   appContainer: {
-    display: 'block',
-    backgroundColor: theme.palette.primary.main,
-    margin: 0
+    minHeight: '100vh'
   },
   mainContainer: {
     backgroundColor: theme.palette.primary.main,
     minHeight: '100vh',
-    minWidth: '100%',
-    marginTop: 55
+    marginTop: 80,
     
   }
 }));
@@ -40,7 +37,7 @@ const Navigation = (props) => {
     <React.Fragment className={classes.appContainer}>
      
       <NavBar buttonValue={'How to Play'}/>
-   
+      
       <Container className={classes.mainContainer}>               
         <Switch>  
           <Route exact path="/">            
@@ -76,7 +73,6 @@ const Navigation = (props) => {
         </Switch>
       </Container>
       <Footer/>        
-
     </React.Fragment>
   );
 };

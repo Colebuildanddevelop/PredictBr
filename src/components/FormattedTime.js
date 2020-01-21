@@ -7,10 +7,10 @@ const FormattedTime = (props) => {
   if (props.duration.getMinutes() < 10) {
     return (
       <div>
-        <Typography align='left' display='inline' style={{fontWeight: 'bold'}}>
+        <Typography align='left' display='inline' style={{fontWeight: 'bold', color: 'white'}}>
           {props.name}
         </Typography>      
-        <Typography align='left' display='inline'>
+        <Typography align='left' display='inline' style={{color: 'white'}}>
           : {props.duration.getMonth() + 1}/{props.duration.getDate() + 1}, {props.duration.getHours()}:0{props.duration.getMinutes()} 
         </Typography>     
       </div>    
@@ -18,10 +18,10 @@ const FormattedTime = (props) => {
   } else {
     return (
       <div>
-        <Typography align='left' display='inline' style={{fontWeight: 'bold'}}>
+        <Typography align='left' display='inline' style={{fontWeight: 'bold', color: 'white'}}>
           {props.name}
         </Typography>      
-        <Typography align='left' display='inline'>
+        <Typography align='left' display='inline' style={{color: 'white'}}>
           : {props.duration.getMonth() + 1}/{props.duration.getDate() + 1}, {props.duration.getHours()}:{props.duration.getMinutes()} 
         </Typography>     
       </div>    
