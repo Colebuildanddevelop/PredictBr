@@ -70,7 +70,7 @@ const Navigation = (props) => {
           <Route path="/GLD">
             <SelectedProduct 
               contractData={ContractData.gld}
-              productName={'SPDR Gold Shares (GLD)'}           
+              productName={'SPDR® Gold Shares (GLD)'}           
             />
           </Route>
         </Switch>

@@ -163,7 +163,7 @@ const CreateGameDrawer = (props) => {
               variant='contained'
               fullWidth={true} 
               style={{
-                color: 'white',
+                color: '#212121',
                 backgroundColor: '#ff3333'
               }}
               onClick={() => props.handleCreateGame(props.myAddress, "spy", state.stakes, state.start, state.end)}

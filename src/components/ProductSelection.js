@@ -18,8 +18,9 @@ const useStyles = makeStyles(theme => ({
   gameButton: {
     width: '100%',
     minHeight: 200,
-    backgroundColor: theme.palette.secondary.light,
-    color: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
+    borderColor: theme.palette.secondary.main,
     fontWeight: 'bold',
     fontSize: 15
   },
@@ -34,28 +35,28 @@ const ProductSelection = () => {
         <Grid container className={classes.productGrid}>
           <Grid item className={classes.productSquare} xs={12} sm={6}>
             <NavLink style={{ textDecoration: 'none', color: 'unset' }} color="inherit" to='/SPY'>
-              <Button variant='contained' className={classes.gameButton}>
+              <Button variant='outlined' className={classes.gameButton}>
                 <p>sp 500</p>  
               </Button>
             </NavLink>
           </Grid>
           <Grid item className={classes.productSquare} xs={12} sm={6}>
             <NavLink style={{ textDecoration: 'none', color: 'unset' }} color="inherit" to='/GLD'>
-              <Button variant='contained' className={classes.gameButton}>
+              <Button variant='outlined' className={classes.gameButton}>
                 <p>gold</p>  
               </Button>
             </NavLink>            
           </Grid>
           <Grid item className={classes.productSquare} xs={12} sm={6}  >
             <NavLink style={{ textDecoration: 'none', color: 'unset' }} color="inherit" to='/USO'>
-              <Button variant='contained' className={classes.gameButton}>
+              <Button variant='outlined' className={classes.gameButton}>
                 <p>USO</p>  
               </Button>
             </NavLink>
           </Grid>
           <Grid item className={classes.productSquare} xs={12} sm={6}  >            
             <NavLink style={{ textDecoration: 'none', color: 'unset' }} color="inherit" to='/ETH'>
-              <Button variant='contained' className={classes.gameButton}>
+              <Button variant='outlined' className={classes.gameButton}>
                 <p>ethereum</p> 
               </Button>           
             </NavLink>  

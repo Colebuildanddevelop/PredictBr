@@ -17,14 +17,14 @@ const CurrentGameState = (props) => {
       )} 
     } else {
       return (              
-      <Typography align='left' style={{fontWeight: 'bold', color: 'gray'}}>
+      <Typography align='left' style={{fontWeight: 'bold', color: '#00b0ff'}}>
         game has started {props.game.gameEndsCountdown.timeLeft}
       </Typography>            
     )}
   } else {
     return (          
     <Typography align='left' style={{fontWeight: 'bold', color: '#00e676'}}>
-      Game starts: {props.game.predictionPeriodCountdown.timeLeft}
+      game starts: {props.game.predictionPeriodCountdown.timeLeft}
     </Typography>        
   )}
 }

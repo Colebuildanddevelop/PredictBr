@@ -15,7 +15,7 @@ const Graph = (props) => {
             }}
             cursorComponent={<Line style={{ stroke: "white" }}/>}
             cursorLabelComponent={<VictoryLabel style={{ fill: 'white'}}/>}
-            cursorLabel={({ datum }) => `${datum.x.getMonth()+1}/${datum.x.getDay()}, ${Math.round(datum.y, 2)}`}
+            cursorLabel={({ datum }) => `${datum.x.getMonth()+1}/${datum.x.getDate()}, ${Math.round(datum.y, 2)}`}
           />
         }
         theme={VictoryTheme.material}

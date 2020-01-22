@@ -52,11 +52,11 @@ const Gamelist = (props) => {
     ).send({
       from: playerAddress
     })
-    .then((error, result) => {
+    .then((result, error) => {
       if (!error) {
-        alert(result)
+        alert(`game was created!`)
       } else {
-        alert(error)
+        alert(`there was an error! ${error}`)
       }
     })
   }  
@@ -85,7 +85,20 @@ const Gamelist = (props) => {
                             <FormattedTime
                               duration={props.state.games[game].gameEndsCountdown.durationDated} 
                               name={'end'}  
-                            />                                                                                                                          
+                            />    
+                            <Typography align='left' style={{fontWeight: 'bold', display: 'inline', paddingRight: 5}}>
+                              settled price:  
+                            </Typography>
+                            {props.state.games[game].assetPrice === 'none' ? (
+                              <Typography align='left' style={{fontWeight: 'lighter', display: 'inline'}}>
+                                {props.state.games[game].assetPrice}  
+                              </Typography>                                
+                            ) : (
+                              <Typography align='left' style={{fontWeight: 'lighter', display: 'inline'}}>
+                                ${parseInt(props.state.games[game].assetPrice).toFixed(2)}  
+                              </Typography>  
+                            )}  
+                                                                                                                                               
                           </Grid>                                         
                         </Grid>
                         <Grid item xs={6} >     
@@ -100,7 +113,16 @@ const Gamelist = (props) => {
                             </Typography>                                                        
                             <Typography align='right'>
                               <div style={{fontWeight: 'bold', display: 'inline'}}>prize pool: </div>{props.state.games[game].totalPredictionPool / (10**18)} ETH
-                            </Typography>                         
+                            </Typography>        
+                            {props.state.games[game].winningPrediction !== 'unclaimed' ? (
+                              <Typography align='right' style={{color: 'white'}}>
+                                <div style={{fontWeight: 'bold', display: 'inline'}}>winning prediction: </div>${props.state.games[game].winningPrediction / 100} 
+                              </Typography>        
+                            ) : (
+                              <Typography align='right' style={{color: 'white'}}>
+                                <div style={{fontWeight: 'bold', display: 'inline'}}>winning prediction: </div> {props.state.games[game].winningPrediction} 
+                              </Typography>       
+                            )}                                               
                           </Grid> 
                         </Grid>   
                       </React.Fragment>

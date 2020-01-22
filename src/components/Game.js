@@ -52,49 +52,44 @@ const useStyles = makeStyles(theme => ({
 const Game = (props) => {
   const classes = useStyles();
   const [state, setState] = useState({
-    predictionVal: '',
+    predictionVal: Math.floor(props.lastPrice),
   });
   const [open, setOpen] = useState({
     myPositions: false,
     allPredictions: false,
   });
 
-  useEffect(() => {
-    if (props.gameState !== undefined) {
-      console.log(props.gameState.countedPredictions)
-    }
-  }, [props])
 
   const handleOpenList = (listName) => {
     setOpen(open => ({
       ...open,
       [listName]: !open[listName]
     }))
-
   };
 
   const handleSlider = (e) => {
     setState({
       predictionVal: e.target.innerText
     })
-    console.log(state)
   }
 
   // send user prediction and staked eth
   const handlePredict = () => {
     let value = parseInt(props.gameState.predictionCost, 10)
     let predictionInt = parseInt(state.predictionVal, 10)
+    console.log(state)
     props.gameState.gameContract.methods.predict(predictionInt).send(
       {
         from: props.myAddress, 
         value: value,
         gas: 3000000
       })
-      .then((err, res) => {
+      .then((res, err) => {
         if (!err) {
-          console.log(res)
+          alert('prediction was sent!')
         } else {
-          console.log(err)
+          console.log(res)
+          alert(`there was an error sending your prediction :(`)
         }
       })      
   }
@@ -148,7 +143,19 @@ const Game = (props) => {
                 <FormattedTime
                   duration={props.gameState.gameEndsCountdown.durationDated} 
                   name={'end'}  
-                />                                                                                                                          
+                />    
+                <Typography align='left' style={{fontWeight: 'bold', display: 'inline', paddingRight: 5, color: 'white'}}>
+                  settled price:  
+                </Typography>
+                {props.gameState.assetPrice === 'none' ? (
+                  <Typography align='left' style={{fontWeight: 'lighter', display: 'inline', color: 'white'}}>
+                    {props.gameState.assetPrice}  
+                  </Typography>                                
+                ) : (
+                  <Typography align='left' style={{fontWeight: 'lighter', display: 'inline', color: 'white'}}>
+                    ${parseInt(props.gameState.assetPrice).toFixed(2)}  
+                  </Typography>  
+                )}                                                                                                                                        
               </Grid>                                         
             </Grid>
             <Grid item xs={6} >     
@@ -158,7 +165,16 @@ const Game = (props) => {
                 </Typography>                                                        
                 <Typography align='right' style={{color: 'white'}}>
                   <div style={{fontWeight: 'bold', display: 'inline'}}>prize pool: </div>{props.gameState.totalPredictionPool / (10**18)} ETH
-                </Typography>                         
+                </Typography>    
+                {props.gameState.winningPrediction !== 'unclaimed' ? (
+                  <Typography align='right' style={{color: 'white'}}>
+                    <div style={{fontWeight: 'bold', display: 'inline'}}>winning prediction: </div>${props.gameState.winningPrediction / 100} 
+                  </Typography>        
+                ) : (
+                  <Typography align='right' style={{color: 'white'}}>
+                    <div style={{fontWeight: 'bold', display: 'inline'}}>winning prediction: </div> {props.gameState.winningPrediction} 
+                  </Typography>       
+                )}               
               </Grid> 
             </Grid>   
           </Grid>     

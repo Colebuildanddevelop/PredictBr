@@ -38,10 +38,12 @@ export const useGameData = (web3, factoryContract, gameAbi) => {
             gameContract: gameContract,
             predictionCost: predictionCost,
             assetName: assetName,
+            assetPrice: 'none',
             resolutionPeriod: resolutionPeriod,
             competitionPeriod: competitionPeriod,
             pricePredictionPeriod: pricePredictionPeriod,
             countedPredictions: null,
+            winningPrediction: 'unclaimed',
             myPositions: {
               num: 0,
               predictions: []
@@ -95,6 +97,7 @@ export const useGameData = (web3, factoryContract, gameAbi) => {
         toBlock: 'latest',
       }, (error, event) => {
         if (!error) {
+          console.log(event.returnValues.prediction)
           setState(state => ({
             ...state,
             games: {
@@ -294,8 +297,5 @@ export const useGameData = (web3, factoryContract, gameAbi) => {
       }
     }, 1000);      
   }
-
-
   return state;
-
 }
