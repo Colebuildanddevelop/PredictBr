@@ -4,10 +4,6 @@
 
 > A platform to interact with a global permissionless prediction competition hosted on the Ethereum Network
 
-> A public reputation registry creates incentives for users to play videos the public will enjoy
-
-> Users are able to cast a vote to skip in which a two thirds majority vote will skip the currently played video. 
-
 ![npm](https://img.shields.io/npm/v/npm)
 ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/colebuildanddevelop/PredictBr/react)
 ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/colebuildanddevelop/PredictBr/web3)
@@ -19,37 +15,31 @@
 
 ## Usage
 
-> Sync 
+> Chose a product 
 
-![sync](https://github.com/Colebuildanddevelop/friendswithvids/blob/master/src/static/sync.gif)
+![chose](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/choseGame.gif)
 
-> Queue Videos
+PredictBr offers the following products
 
-![queue](https://github.com/Colebuildanddevelop/friendswithvids/blob/master/src/static/queue.gif)
+- SPDR® S&P 500® ETF Trust SPY
 
-> Vote to Skip
+- SPDR® Gold Shares (GLD)
 
-![voteToSkip](https://github.com/Colebuildanddevelop/friendswithvids/blob/master/src/static/voteToSkip.gif)
+- United States Oil Fund, LP (USO)
 
-> Reputation System
+- Ethereum
 
-![reputation](https://github.com/Colebuildanddevelop/friendswithvids/blob/master/src/static/reputation.gif)
+> Chose a game
 
----
+![choseGame](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/choseGame.gif)
 
-## Features
+> Place a prediction
 
-> Google authentication
+![placePrediction](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/predict.gif)
 
-![googleAuth](https://github.com/Colebuildanddevelop/friendswithvids/blob/master/src/static/googleAuth.gif)
+> Claim a winning prediction
 
-> Email authentication
-
-![emailAuth](https://github.com/Colebuildanddevelop/friendswithvids/blob/master/src/static/emailAuth.gif)
-
-> Responsive Design
-
-![responsive](https://github.com/Colebuildanddevelop/friendswithvids/blob/master/src/static/responsive.gif)
+![claim](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/claimWinning.gif)
 
 ---
 
@@ -59,5 +49,5 @@ Reach out to me or check out my other work!
 
 - Email: colebuildanddevelop@gmail.com
 
-- Website: <a href="https://portfolio-5e35d.firebaseapp.com/" target="_blank">`RecentWorks`</a>
+- Portfolio: <a href="https://portfolio-5e35d.firebaseapp.com/" target="_blank">`RecentWorks`</a>
 
