@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
   gameOption: {
     margin: 'auto',
-    padding: 10,
+    padding: 20,
     minHeight: '100vh',
     width: '100%',
     backgroundColor: theme.palette.primary.main,
@@ -152,7 +152,7 @@ const HowToPlayDrawer = () => {
               Step Four:
             </Typography>
             <Typography align='center' variant='h6' style={{display: 'inline', paddingLeft: 10, fontWeight: 'lighter'}}>
-              claim the winning prediction
+              claim a winning prediction
             </Typography>  
             <Grid item xs={12} className={classes.tutorialGif} >
               <img src={claimWinningGif} style={{width: '100%'}} />
@@ -177,11 +177,14 @@ const HowToPlayDrawer = () => {
               Step Five:
             </Typography>     
             <Typography align='center' variant='h6' style={{display: 'inline', paddingLeft: 10, fontWeight: 'lighter'}}>
-              collect whats yours!
+              collect what's yours!
             </Typography>    
             <Grid item xs={12} className={classes.tutorialGif} >
               <img src={collectEarningsGif} style={{width: '100%'}} />
-            </Grid>                            
+            </Grid>       
+            <Typography align='left'>
+              When a game is resolved, any player that has made a prediction equivalent to the listed "winning prediction" is eligible to withdraw the balance of the game (distributed equally if there is a tie).
+            </Typography>                      
           </Grid>  
 
         </Grid>        

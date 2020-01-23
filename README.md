@@ -33,18 +33,49 @@ PredictBr offers the following products
 
 ![choseGame](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/choseGame.gif)
 
-> Place a prediction
+Game States:
+
+- Prediction Period (anytime before a game starts)
+
+- Running Period (game has started, predictions no longer accepted)
+
+- Resolution Period (a price has settled, players claim winning predictions)
+
+- Resolved (claims are no longer accepted, the player with the most accurately claimed prediciton is eligible to their winnings)
+
+---
+
+## Step 3: Place a prediction
 
 ![placePrediction](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/predict.gif)
 
-> Claim a winning prediction
+- Players are free to predict as much as they chose up until the moment the game starts.
+
+- Players can predict prices that have already been predicted, if multiple players have a winning prediction the pot will be distributed equally amongst them.
+
+- Your predictions will appear under "My Positions" while the games total recorded positions will appear under "All Predictions".
+
+---
+
+## Step 4: Claim a winning prediction
 
 ![claim](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/claimWinning.gif)
 
-> Collect Earnings 
+- At the end of a games duration, a price will be settled and a resolution period will began.
+
+- During the resolution period, players are eligible to claim their predictions as the most accurate.
+
+- The current winning prediction will be displayed under "winnning prediction" so that players can judge if they have a more accurate prediction.
+
+- When the resolution period ends, predictions can no longer be claimed as more accurate so be sure to claim your winners!
+
+---
+
+## Step Five: Collect Earnings 
 
 ![collect](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/collectEarnings.gif)
 
+- When a game is resolved, any player that has made a prediction equivalent to the listed "winning prediction" is eligible to withdraw the balance of the game (distributed equally if there is a tie).
 
 ---
 
