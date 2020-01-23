@@ -53,6 +53,11 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+/**
+ * @desc a button that initilizes the game creation flow
+ * @param props
+ * @return CreateGameDrawer component
+ */
 const CreateGameDrawer = (props) => {
   const classes = useStyles();
   const [state, setState] = useState({
@@ -61,12 +66,14 @@ const CreateGameDrawer = (props) => {
     start: 60,
     end: 60 
   });
+  // handles the state of the game to be created options
   const handleChange = name => event => {
     setState({
       ...state,
       [name]: event.target.value,
     });
   };
+  // handles the state for the drawers opening and closing 
   const toggleDrawer = open => event => {
     console.log(state)
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -178,45 +185,3 @@ const CreateGameDrawer = (props) => {
 }
 
 export default CreateGameDrawer;
-
-
-
-
-const Alert = (props) => {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
-
-const CustomizedSnackbars = () => {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-  };
-
-  return (
-    <div className={classes.snackbar}>
-      <Button variant="outlined" onClick={handleClick}>
-        Open success snackbar
-      </Button>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} color="success">
-          This is a success message!
-        </Alert>
-      </Snackbar>
-      <Alert color="error">This is an error message!</Alert>
-      <Alert color="warning">This is a warning message!</Alert>
-      <Alert color="info">This is an information message!</Alert>
-      <Alert color="success">This is a success message!</Alert>
-    </div>
-  );
-}

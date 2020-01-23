@@ -15,7 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { NavLink } from 'react-router-dom';
 
 
-function HideOnScroll(props) {
+const HideOnScroll = (props) => {
   const { children, window } = props;
   const trigger = useScrollTrigger({ target: window ? window() : undefined });
   return (
@@ -48,8 +48,6 @@ const useStyles = makeStyles(theme => ({
 
 const NavBar = (props) => {
   const classes = useStyles();
-
-
   return (
     <React.Fragment >
       <HideOnScroll>

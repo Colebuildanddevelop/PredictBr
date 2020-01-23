@@ -38,13 +38,20 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SelectedProduct = (props) => {
 
+/**
+ * @desc 
+ *   - a HOC to GameList, Graph
+ *   - gets game states from Ethereum network
+ * @param props - passed from Navigation
+ *   - ContractData, used to connect to the Ethereum smart contracts
+ * @return SelectedProduct Component 
+ */
+const SelectedProduct = (props) => {
+  
   const classes = useStyles()
   // REACT ROUTER
   let { path } = useRouteMatch();  
-  // get the game list for the associated product    
-
   const [state, setState] = useState({
     isLoading: true,
     games: null,
@@ -63,7 +70,7 @@ const SelectedProduct = (props) => {
   const factoryContract = new web3.eth.Contract(props.contractData.factoryAbi, props.contractData.factoryAddress);  
   let gamesData = useGameData(web3, factoryContract, props.contractData.gameAbi)
   useEffect(() => {
-
+    // formats position data from Ethereum, shows user their postions respective of the game
     const handlePositions = async (games, myAddress) => {
       // key is gameAddress, value is gameState
       if (games !== undefined && games !== null) {
@@ -104,13 +111,14 @@ const SelectedProduct = (props) => {
         }
       }      
     }         
+    
     setState(state => ({
       ...state,
       games: gamesData.games,
       myAddress: gamesData.myAddress,
-      numOfPositions: gamesData.numOfPositions
     }))    
-    handlePositions(gamesData.games, gamesData.myAddress)       
+    handlePositions(gamesData.games, gamesData.myAddress)     
+    // handle loading  
     if (gamesData.games !== undefined && graphData !== null) {
       setState(state => ({
         ...state,
@@ -121,33 +129,33 @@ const SelectedProduct = (props) => {
 
   if (state.isLoading !== true) {
     return (
-        <React.Fragment>
-          <Typography align='center' variant='h4' className={classes.productName} >
-            {props.productName}
-          </Typography>
-          <Zoom timeout={750} in={true}>
-            <Grid container>
-              <Grid item className={classes.graphContainer} >
-                <Graph productData={state.productData} />  
-              </Grid>
-              <Grid item className={classes.gamelistContainer}>         
-                <Switch>
-                  <Route exact path={path}>
-                    <Gamelist factoryContract={factoryContract} state={state} />              
-                  </Route>
-                  <Route 
-                    exact path={`${path}/game_:id`}
-                    render={({match}) => <Game
-                      gameState={state.games[match.params.id]} 
-                      myAddress={state.myAddress} 
-                      lastPrice={state.productData[0].close}
-                    />}
-                  />
-                </Switch>          
-              </Grid>   
-            </Grid>  
-          </Zoom>            
-        </React.Fragment>
+      <React.Fragment>
+        <Typography align='center' variant='h4' className={classes.productName} >
+          {props.productName}
+        </Typography>
+        <Zoom timeout={750} in={true}>
+          <Grid container>
+            <Grid item className={classes.graphContainer} >
+              <Graph productData={state.productData} />  
+            </Grid>
+            <Grid item className={classes.gamelistContainer}>         
+              <Switch>
+                <Route exact path={path}>
+                  <Gamelist factoryContract={factoryContract} state={state} />              
+                </Route>
+                <Route 
+                  exact path={`${path}/game_:id`}
+                  render={({match}) => <Game
+                    gameState={state.games[match.params.id]} 
+                    myAddress={state.myAddress} 
+                    lastPrice={state.productData[0].close}
+                  />}
+                />
+              </Switch>          
+            </Grid>   
+          </Grid>  
+        </Zoom>            
+      </React.Fragment>
     )  
   } else {
     return (

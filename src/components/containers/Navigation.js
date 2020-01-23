@@ -32,15 +32,18 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Navigation = (props) => {
+/**
+ * @desc a HOC to SelectedProduct, Home
+ * @param props
+ * @return Navigation Component 
+ */
+const Navigation = () => {
   const classes = useStyles();
   let {url} = useRouteMatch();
 
   return (
     <React.Fragment className={classes.appContainer}>
-     
       <NavBar buttonValue={'How to Play'}/>
-      
       <Container className={classes.mainContainer}>               
         <Switch>  
           <Route exact path="/">            

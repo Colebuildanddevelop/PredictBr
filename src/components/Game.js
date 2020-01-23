@@ -59,7 +59,6 @@ const Game = (props) => {
     allPredictions: false,
   });
 
-
   const handleOpenList = (listName) => {
     setOpen(open => ({
       ...open,

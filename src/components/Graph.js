@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { VictoryCandlestick, VictoryLabel, Line, VictoryZoomContainer, VictoryChart, VictoryAxis, VictoryTheme, VictoryTooltip, createContainer, VictoryCursorContainer } from 'victory';
 
+/**
+ * @desc displays data in the form of a candlestick graph
+ * @param props - price data from alphavantage api
+ * @return Graph Component 
+ */
 const Graph = (props) => {
-
   return (
     <React.Fragment >
       <VictoryChart

@@ -24,9 +24,8 @@ const theme = createMuiTheme({
   },
 });
 
-
+// main application component 
 const App = () => {
-
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>       
@@ -35,7 +34,6 @@ const App = () => {
         </Router>
       </Provider>        
     </ThemeProvider>
-
   );
 }
 

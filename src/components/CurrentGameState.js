@@ -1,6 +1,11 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
+/**
+ * @desc displays the appropriate component given the current state of the game
+ * @param props - game state
+ * @return CurrentGameState Component 
+ */
 const CurrentGameState = (props) => {
   if (props.game.predictionPeriodCountdown.isOver === true) {
     if (props.game.gameEndsCountdown.isOver === true) {  

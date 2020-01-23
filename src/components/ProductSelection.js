@@ -25,10 +25,13 @@ const useStyles = makeStyles(theme => ({
     fontSize: 15
   },
 }));
-
+/**
+ * @desc exposes user product options
+ * @param none
+ * @return ProductSelection Component 
+ */
 const ProductSelection = () => {
-  const classes = useStyles();              
-  
+  const classes = useStyles();                
   return (
     <React.Fragment>
       <Grow timeout={1000} in={true}>

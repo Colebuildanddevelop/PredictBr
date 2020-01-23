@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { NavLink } from 'react-router-dom';
 
-function Copyright() {
+const Copyright = () => {
   return (
     <Typography variant="body2" style={{color: '#212121'}} align="center">
       {'Copyright © '}

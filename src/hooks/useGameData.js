@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
+/**
+ * @desc initialzes all game data for a given Product Factory Contract
+ * @param Object web3 - exposes connection settings to allow Wallet Provider to communicate with the Ethereum network
+ * @param Object factoryContract - data to find the appropriate smart contract on the Ethereum network
+ * @param Array gameAbi - array of objects describing the game data
+ * @return state for a given factory 
+ */
 export const useGameData = (web3, factoryContract, gameAbi) => {
-
   const [state, setState] = useState({
     isLoading: true,
   });
@@ -169,12 +175,9 @@ export const useGameData = (web3, factoryContract, gameAbi) => {
           let player = event.returnValues.player
           let predictionPrice = event.returnValues.predictionPrice
           // see if the predicted price is already predicted
-
- 
           // add player to players
           setState(state => ({
             ...state,
-            numOfPositions: state.numOfPositions + 1,
             games: {
               ...state.games,
               [gameAddress]: {
@@ -193,6 +196,7 @@ export const useGameData = (web3, factoryContract, gameAbi) => {
         } 
       })                                                        
     }  
+    // retrieves all games created from the factory and subscribes to each ones data respectively
     const loadData = async () => {
       await factoryContract.events.contractCreated({
         fromBlock: 0,
@@ -207,7 +211,6 @@ export const useGameData = (web3, factoryContract, gameAbi) => {
             .then(() => {
               subscribeToGame(gameContract, gameAddress);
             })
-            
         } else {
           console.log(error)
         }
@@ -219,7 +222,6 @@ export const useGameData = (web3, factoryContract, gameAbi) => {
         .then(() => {
           loadData();
         })
-
       setState(state => ({
         ...state,
         isLoading: false,
@@ -229,7 +231,7 @@ export const useGameData = (web3, factoryContract, gameAbi) => {
     return () => isSubscribed = false;
   }, [])  
 
-
+  // formats countdown period data from Ethereum smart contracts
   const handleCountdown = (address, countdown, duration, countdownName, isOverMessage) => {
     countdown = setInterval(() => {  
       // Get today's date and time
@@ -257,10 +259,7 @@ export const useGameData = (web3, factoryContract, gameAbi) => {
       } else {
         timeLeft = days + "d " + hours + "h " + minutes + "m " + seconds + "s "; 
       }
-
-    
       
-       
       setState(state => ({
         ...state,
         games: {

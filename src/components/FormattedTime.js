@@ -1,7 +1,11 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
-
+/**
+ * @desc formats unix time stamps received from Ethereum smart contracts
+ * @param props - unix timestamps
+ * @return FormattedTime Component
+ */
 const FormattedTime = (props) => {
   // add a 0 to minutes less than 10
   if (props.duration.getMinutes() < 10) {

@@ -25,7 +25,11 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
-
+/**
+ * @desc landing page, exposes a tutorial option or starts the main app flow
+ * @param none
+ * @return Home Component 
+ */
 const Home = () => {
   const classes = useStyles();
   return (

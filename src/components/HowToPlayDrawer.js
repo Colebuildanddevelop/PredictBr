@@ -34,8 +34,12 @@ const useStyles = makeStyles(theme => ({
     padding: 20    
   }
 }))
-
-const HowToPlayDrawer = (props) => {
+/**
+ * @desc displays tutorial information
+ * @param none
+ * @return HowToPlayDrawer Component 
+ */
+const HowToPlayDrawer = () => {
   const classes = useStyles();
   const [state, setState] = useState({
     drawerOpen: false,   

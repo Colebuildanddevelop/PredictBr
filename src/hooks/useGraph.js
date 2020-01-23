@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
+/**
+ * @desc used to get data from the given contracts price api
+ * @param Object contractData 
+ * @returns price data formatted for candlesticks
+ */
 export const useGraph = (contractData) => {
   const [state, setState] = useState({
     isLoading: true,
@@ -28,7 +33,6 @@ export const useGraph = (contractData) => {
         isLoading: false,
         productData: updatedArr,
       })
-      console.log('usegraph')
     }
     getGraphData();
   }, [])  
