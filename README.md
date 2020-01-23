@@ -13,11 +13,13 @@
 
 ---
 
-## Usage
+## About
 
-> Chose a product 
+---
 
-![chose](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/choseGame.gif)
+## Step 1: chose a product
+
+![chose](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/choseProduct.gif)
 
 PredictBr offers the following products
 
@@ -29,7 +31,7 @@ PredictBr offers the following products
 
 - Ethereum
 
-> Chose a game
+## Step 2: chose a game
 
 ![choseGame](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/choseGame.gif)
 
@@ -40,6 +42,11 @@ PredictBr offers the following products
 > Claim a winning prediction
 
 ![claim](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/claimWinning.gif)
+
+> Collect Earnings 
+
+![collect](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/collectEarnings.gif)
+
 
 ---
 

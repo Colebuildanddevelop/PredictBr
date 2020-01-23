@@ -4,6 +4,7 @@ import choseProductGif from '../static/choseProduct.gif';
 import choseGameGif from '../static/choseGame.gif';
 import predictGif from '../static/predict.gif';
 import claimWinningGif from '../static/claimWinning.gif';
+import collectEarningsGif from '../static/collectEarnings.gif'
 // MATERIAL UI
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -151,7 +152,7 @@ const HowToPlayDrawer = () => {
               Step Four:
             </Typography>
             <Typography align='center' variant='h6' style={{display: 'inline', paddingLeft: 10, fontWeight: 'lighter'}}>
-              claim what's yours!
+              claim the winning prediction
             </Typography>  
             <Grid item xs={12} className={classes.tutorialGif} >
               <img src={claimWinningGif} style={{width: '100%'}} />
@@ -176,8 +177,11 @@ const HowToPlayDrawer = () => {
               Step Five:
             </Typography>     
             <Typography align='center' variant='h6' style={{display: 'inline', paddingLeft: 10, fontWeight: 'lighter'}}>
-              collect your earnings!
-            </Typography>                  
+              collect whats yours!
+            </Typography>    
+            <Grid item xs={12} className={classes.tutorialGif} >
+              <img src={collectEarningsGif} style={{width: '100%'}} />
+            </Grid>                            
           </Grid>  
 
         </Grid>        
