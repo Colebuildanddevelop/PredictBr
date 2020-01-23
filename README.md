@@ -13,10 +13,6 @@
 
 ---
 
-## About
-
----
-
 ## Step 1: chose a product
 
 ![chose](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/choseProduct.gif)
@@ -30,6 +26,8 @@ PredictBr offers the following products
 - United States Oil Fund, LP (USO)
 
 - Ethereum
+
+---
 
 ## Step 2: chose a game
 
