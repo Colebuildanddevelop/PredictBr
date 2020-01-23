@@ -13,6 +13,12 @@
 
 ---
 
+## About 
+
+PredictBr is a global permissionless competition where players compete by making predictions concerning the price of various assets at various future points in time. In order to place a prediciton, players must stake a given amount. When the competition concludes and a price has settled, the player with the most accurate prediction is entitled to the total pot generated from predictions.
+
+---
+
 ## Step 1: chose a product
 
 ![chose](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/choseProduct.gif)
@@ -45,9 +51,11 @@ Game States:
 
 ---
 
-## Step 3: Place a prediction
+## Step 3: place a prediction
 
 ![placePrediction](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/predict.gif)
+
+Rules & Considerations
 
 - Players are free to predict as much as they chose up until the moment the game starts.
 
@@ -57,9 +65,11 @@ Game States:
 
 ---
 
-## Step 4: Claim a winning prediction
+## Step 4: claim a winning prediction
 
 ![claim](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/claimWinning.gif)
+
+Rules & Considerations
 
 - At the end of a games duration, a price will be settled and a resolution period will began.
 
@@ -71,9 +81,11 @@ Game States:
 
 ---
 
-## Step Five: Collect Earnings 
+## Step Five: collect earnings 
 
 ![collect](https://github.com/Colebuildanddevelop/PredictBR/blob/master/src/static/collectEarnings.gif)
+
+
 
 - When a game is resolved, any player that has made a prediction equivalent to the listed "winning prediction" is eligible to withdraw the balance of the game (distributed equally if there is a tie).
 
