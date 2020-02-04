@@ -15,7 +15,7 @@
 
 ## About 
 
-PredictBr is a global permissionless competition where players compete by making predictions concerning the price of various assets at various future points in time. In order to place a prediciton, players must stake a given amount. When the competition concludes and a price has settled, the player with the most accurate prediction is entitled to the total pot generated from predictions.
+PredictBr is a global permissionless competition where players make predictions concerning the price of various assets at various future points in time. In order to place a prediciton, players must stake a given amount. When the competition concludes and a price has settled, the player with the most accurate prediction is entitled to the total pot generated from predictions.
 
 ---
 

@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import Zoom from '@material-ui/core/Zoom';
+import Link from '@material-ui/core/Link';
 // WEB3
 import web3 from '../../web3';
 
@@ -126,7 +127,21 @@ const SelectedProduct = (props) => {
       })) 
     }
   }, [gamesData.games])
-
+  if (gamesData.metaMaskDetected === false) {
+    return (
+      <Grid container style={{marginTop: 'auto', width: '100%'}}>
+        <Typography align='center' variant='h3' style={{margin: 'auto', color: 'white', width: '100%', marginBottom: 20}}>
+          Whoops! 
+        </Typography>        
+        <Typography align='center' style={{margin: 'auto', color: 'white', width: '100%'}}>
+          PredictBR requires a web3 connection capable of subscribing to the Ethereum Network. We recommend using Metamask! Download and information can be found at 
+          <Link href='https://metamask.io/' style={{color: 'inherit', marginLeft: 5}}>
+            https://metamask.io/!
+          </Link>
+        </Typography>
+      </Grid>
+    )
+  }
   if (state.isLoading !== true) {
     return (
       <React.Fragment>

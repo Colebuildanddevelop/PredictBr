@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
  */
 export const useGameData = (web3, factoryContract, gameAbi) => {
   const [state, setState] = useState({
-    isLoading: true,
+    metaMaskDetected: null,
   });
   useEffect(() => {    
     // CLEANUP  
@@ -206,13 +206,18 @@ export const useGameData = (web3, factoryContract, gameAbi) => {
           // init game contract
           let gameAddress = event.returnValues.newAddress;
           let gameContract = new web3.eth.Contract(gameAbi, gameAddress)
-          // Get constant data then subscribe to events        
+          // Get constant data then subscribe to events    
+
           getGameData(gameContract, gameAddress)
             .then(() => {
               subscribeToGame(gameContract, gameAddress);
             })
         } else {
           console.log(error)
+          setState(state => ({
+            ...state,
+            metaMaskDetected: false
+          }))
         }
       })        
     }
@@ -224,7 +229,7 @@ export const useGameData = (web3, factoryContract, gameAbi) => {
         })
       setState(state => ({
         ...state,
-        isLoading: false,
+        metaMaskDetected: true,
       }));   
       console.log(state) 
     } 
